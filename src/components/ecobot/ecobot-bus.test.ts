@@ -6,7 +6,8 @@ describe("ecobot-bus", () => {
     const listener = vi.fn();
     const unsub = subscribeEcoBot(listener);
     openEcoBot();
-    expect(listener).toHaveBeenCalledWith(undefined);
+    expect(listener).toHaveBeenCalledTimes(1);
+    expect(listener.mock.calls[0]).toEqual([]);
     unsub();
   });
 
