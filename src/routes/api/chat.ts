@@ -28,8 +28,15 @@ export const Route = createFileRoute("/api/chat")({
           auth: { persistSession: false, autoRefreshToken: false },
         });
         const { data: claimsData, error: claimsError } = await sb.auth.getClaims(token);
-        if (claimsError || !claimsData?.claims?.sub) {
+        const claims = claimsData?.claims as { sub?: string; email?: string } | undefined;
+        if (claimsError || !claims?.sub) {
           return new Response("Unauthorized", { status: 401 });
+        }
+
+        // Block the shared demo account from consuming AI credits.
+        const DEMO_EMAIL = process.env.DEMO_EMAIL?.toLowerCase();
+        if (DEMO_EMAIL && claims.email?.toLowerCase() === DEMO_EMAIL) {
+          return new Response("Demo accounts cannot use chat. Please sign up.", { status: 403 });
         }
 
         let body: ChatRequestBody;
@@ -41,6 +48,28 @@ export const Route = createFileRoute("/api/chat")({
         const { messages } = body;
         if (!Array.isArray(messages)) {
           return new Response("Messages are required", { status: 400 });
+        }
+
+        // Bound payload size to prevent runaway AI token consumption.
+        const MAX_MESSAGES = 50;
+        const MAX_MSG_CHARS = 4000;
+        if (messages.length === 0) {
+          return new Response("Messages cannot be empty", { status: 400 });
+        }
+        if (messages.length > MAX_MESSAGES) {
+          return new Response(`Too many messages (max ${MAX_MESSAGES})`, { status: 400 });
+        }
+        for (const msg of messages as UIMessage[]) {
+          const parts = Array.isArray(msg?.parts) ? msg.parts : [];
+          let textLen = 0;
+          for (const p of parts) {
+            if (p && (p as { type?: string }).type === "text") {
+              textLen += String((p as { text?: string }).text ?? "").length;
+            }
+          }
+          if (textLen > MAX_MSG_CHARS) {
+            return new Response(`Message too long (max ${MAX_MSG_CHARS} chars)`, { status: 400 });
+          }
         }
 
         const key = process.env.LOVABLE_API_KEY;
