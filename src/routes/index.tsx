@@ -1,12 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { WelcomeSection } from "@/components/home/WelcomeSection";
 import { CarbonSummary } from "@/components/home/CarbonSummary";
 import { DailyFyiCard } from "@/components/home/DailyFyiCard";
-import { EcoBotInlineCard } from "@/components/ecobot/EcoBotInlineCard";
 import { QuickActions } from "@/components/home/QuickActions";
 import { InsightCard } from "@/components/home/InsightCard";
 import { ChallengeTracker } from "@/components/home/ChallengeTracker";
 import { UserMenu } from "@/components/auth/UserMenu";
+import { MessageCircle } from "lucide-react";
+import ecobotAvatar from "@/assets/ecobot-avatar.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,9 +39,36 @@ function Home() {
         <UserMenu />
       </div>
       <WelcomeSection />
+
+      {/* Chat CTA — prominent entry to the chat page */}
+      <Link
+        to="/chat"
+        className="glass-tinted-leaf group relative flex items-center gap-4 overflow-hidden rounded-3xl p-5 transition hover:brightness-105 active:scale-[0.98]"
+      >
+        <div className="absolute -right-12 -bottom-16 h-48 w-48 rounded-full bg-leaf/30 blur-3xl" aria-hidden />
+        <div className="relative shrink-0">
+          <span className="absolute inset-0 rounded-full bg-leaf/20 blur-md transition group-hover:bg-leaf/30" aria-hidden />
+          <img
+            src={ecobotAvatar}
+            alt="EcoBot"
+            width={64}
+            height={64}
+            className="ecobot-float relative h-16 w-16 object-contain"
+          />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-base font-semibold text-foreground">Chat with EcoBot</p>
+          <p className="text-sm text-muted-foreground truncate">
+            Ask anything about your footprint, get challenges & tips.
+          </p>
+        </div>
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg">
+          <MessageCircle className="h-5 w-5" />
+        </div>
+      </Link>
+
       <CarbonSummary />
       <DailyFyiCard />
-      <EcoBotInlineCard />
       <ChallengeTracker />
       <QuickActions />
       <InsightCard />
