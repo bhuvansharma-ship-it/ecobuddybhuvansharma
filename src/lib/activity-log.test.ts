@@ -102,6 +102,7 @@ describe("useActivityTotals", () => {
     const { result } = renderHook(() => useActivityTotals());
     expect(result.current.today).toBe(1);
     expect(result.current.month).toBe(1);
-    expect(result.current.count).toBe(1);
+    expect(result.current.count).toBe(2); // count is not time-filtered
+    expect(result.current.items.filter((i) => i.at >= now).length).toBe(1);
   });
 });
