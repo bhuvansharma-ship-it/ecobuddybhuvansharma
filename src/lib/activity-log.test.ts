@@ -46,7 +46,7 @@ describe("loadActivity", () => {
   it("returns [] when window is undefined (SSR)", () => {
     const originalWindow = globalThis.window;
     try {
-      // @ts-expect-error
+      // @ts-expect-error -- intentionally invalid for test
       globalThis.window = undefined;
       expect(loadActivity()).toEqual([]);
     } finally {

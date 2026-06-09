@@ -32,7 +32,7 @@ describe("reportLovableError", () => {
   it("no-ops when window is undefined (SSR)", async () => {
     const originalWindow = globalThis.window;
     try {
-      // @ts-expect-error
+      // @ts-expect-error -- intentionally invalid for test
       globalThis.window = undefined;
       const { reportLovableError } = await import("./lovable-error-reporting");
       expect(() => reportLovableError(new Error("x"))).not.toThrow();
