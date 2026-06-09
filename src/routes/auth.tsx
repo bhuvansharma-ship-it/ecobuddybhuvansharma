@@ -69,13 +69,14 @@ function AuthPage() {
         toast.success("Welcome back!");
       }
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Something went wrong";
+      const msg = err instanceof Error ? err.message : "";
+      if (import.meta.env.DEV) console.error("[auth]", err);
       toast.error(
         msg.includes("Invalid login")
           ? "Wrong email or password"
           : msg.includes("already registered")
             ? "That email is already registered. Try signing in."
-            : msg,
+            : "Something went wrong. Please try again.",
       );
     } finally {
       setSubmitting(false);
