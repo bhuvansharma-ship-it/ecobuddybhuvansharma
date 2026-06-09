@@ -32,7 +32,9 @@ function AuthPage() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_e, session) => {
       if (session) navigate({ to: "/" });
     });
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -102,7 +104,11 @@ function AuthPage() {
               : "Start tracking your impact in seconds."}
           </p>
 
-          <Tabs value={mode} onValueChange={(v) => setMode(v as "signin" | "signup")} className="mt-5">
+          <Tabs
+            value={mode}
+            onValueChange={(v) => setMode(v as "signin" | "signup")}
+            className="mt-5"
+          >
             <TabsList className="grid w-full grid-cols-2 bg-emerald-50/80">
               <TabsTrigger value="signin">Sign in</TabsTrigger>
               <TabsTrigger value="signup">Sign up</TabsTrigger>
@@ -145,7 +151,11 @@ function AuthPage() {
                   </div>
                 </div>
 
-                <Button type="submit" disabled={submitting} className="w-full bg-emerald-700 hover:bg-emerald-800">
+                <Button
+                  type="submit"
+                  disabled={submitting}
+                  className="w-full bg-emerald-700 hover:bg-emerald-800"
+                >
                   {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   {mode === "signin" ? "Sign in" : "Create account"}
                 </Button>

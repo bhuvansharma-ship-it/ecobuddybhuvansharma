@@ -9,7 +9,10 @@ export function EcoBotInlineCard() {
       aria-label="EcoBot assistant"
       className="glass-tinted-leaf relative overflow-hidden rounded-3xl p-5 sm:p-6"
     >
-      <div className="absolute -right-12 -bottom-16 h-48 w-48 rounded-full bg-leaf/30 blur-3xl" aria-hidden />
+      <div
+        className="absolute -right-12 -bottom-16 h-48 w-48 rounded-full bg-leaf/30 blur-3xl"
+        aria-hidden
+      />
       <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-6">
         <button
           type="button"
@@ -17,7 +20,10 @@ export function EcoBotInlineCard() {
           className="group relative mx-auto h-20 w-20 shrink-0 sm:mx-0"
           aria-label="Open EcoBot"
         >
-          <span className="absolute inset-0 rounded-full bg-leaf/20 blur-md transition group-hover:bg-leaf/30" aria-hidden />
+          <span
+            className="absolute inset-0 rounded-full bg-leaf/20 blur-md transition group-hover:bg-leaf/30"
+            aria-hidden
+          />
           <img
             src={ecobotAvatar}
             alt="EcoBot"

@@ -30,9 +30,7 @@ export function InsightCard() {
         </div>
 
         <div className="space-y-2">
-          <h2 className="text-lg font-semibold text-white sm:text-xl">
-            {proactiveInsight.title}
-          </h2>
+          <h2 className="text-lg font-semibold text-white sm:text-xl">{proactiveInsight.title}</h2>
           <p className="text-sm leading-relaxed text-emerald-50/90 sm:text-base">
             {proactiveInsight.body}
           </p>

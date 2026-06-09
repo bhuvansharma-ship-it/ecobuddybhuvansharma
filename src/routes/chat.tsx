@@ -101,7 +101,8 @@ function ChatPage() {
               <div>
                 <p className="text-lg font-semibold text-foreground">Hey, I'm EcoBot 🌱</p>
                 <p className="mt-1 text-sm text-muted-foreground max-w-[260px]">
-                  Ask me about your footprint, get a daily challenge, or estimate the carbon cost of just about anything.
+                  Ask me about your footprint, get a daily challenge, or estimate the carbon cost of
+                  just about anything.
                 </p>
               </div>
             </div>

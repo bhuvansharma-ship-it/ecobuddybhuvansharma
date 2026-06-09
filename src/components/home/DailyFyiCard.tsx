@@ -12,9 +12,7 @@ export function DailyFyiCard() {
           <Lightbulb className="h-5 w-5" />
         </span>
         <div className="space-y-1.5">
-          <p className="text-xs font-semibold uppercase tracking-wider text-sun">
-            Daily FYI
-          </p>
+          <p className="text-xs font-semibold uppercase tracking-wider text-sun">Daily FYI</p>
           <p className="text-base leading-relaxed text-foreground sm:text-lg">{dailyFyi.fact}</p>
         </div>
       </div>

@@ -18,7 +18,12 @@ export function UserMenu() {
 
   if (!user) {
     return (
-      <Button asChild size="sm" variant="outline" className="rounded-full border-emerald-300 bg-white/70 backdrop-blur">
+      <Button
+        asChild
+        size="sm"
+        variant="outline"
+        className="rounded-full border-emerald-300 bg-white/70 backdrop-blur"
+      >
         <Link to="/auth">
           <LogIn className="mr-1.5 h-4 w-4" /> Sign in
         </Link>

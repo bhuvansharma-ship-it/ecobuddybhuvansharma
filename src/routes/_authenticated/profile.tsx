@@ -99,8 +99,16 @@ function ProfilePage() {
           />
         </div>
 
-        <Button onClick={save} disabled={saving || loading} className="w-full bg-emerald-700 hover:bg-emerald-800">
-          {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
+        <Button
+          onClick={save}
+          disabled={saving || loading}
+          className="w-full bg-emerald-700 hover:bg-emerald-800"
+        >
+          {saving ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Save className="mr-2 h-4 w-4" />
+          )}
           Save changes
         </Button>
 

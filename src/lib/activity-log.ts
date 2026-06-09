@@ -46,7 +46,8 @@ export function useActivityTotals() {
   }, []);
 
   const now = new Date();
-  const startOfDay = new Date(now); startOfDay.setHours(0, 0, 0, 0);
+  const startOfDay = new Date(now);
+  startOfDay.setHours(0, 0, 0, 0);
   const startOfWeek = new Date(startOfDay);
   startOfWeek.setDate(startOfDay.getDate() - ((startOfDay.getDay() + 6) % 7)); // Monday
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);

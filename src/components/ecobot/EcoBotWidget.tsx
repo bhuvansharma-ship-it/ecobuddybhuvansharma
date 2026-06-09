@@ -91,7 +91,10 @@ export function EcoBotWidget() {
                 height={40}
                 className="h-10 w-10 object-contain"
               />
-              <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-card bg-leaf" aria-hidden />
+              <span
+                className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-card bg-leaf"
+                aria-hidden
+              />
             </div>
             <div className="flex-1">
               <p className="text-sm font-semibold leading-tight text-foreground">EcoBot</p>
@@ -143,8 +146,8 @@ export function EcoBotWidget() {
                   <div>
                     <p className="text-base font-semibold text-foreground">Hey, I'm EcoBot 🌱</p>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      Ask me about your footprint, get a daily challenge, or estimate the
-                      carbon cost of just about anything.
+                      Ask me about your footprint, get a daily challenge, or estimate the carbon
+                      cost of just about anything.
                     </p>
                   </div>
                 </div>

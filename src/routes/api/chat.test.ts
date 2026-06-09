@@ -74,7 +74,10 @@ describe("api/chat auth gate", () => {
 
 describe("api/chat input validation", () => {
   beforeEach(() => {
-    getClaims.mockResolvedValue({ data: { claims: { sub: "user-1", email: "u@example.com" } }, error: null });
+    getClaims.mockResolvedValue({
+      data: { claims: { sub: "user-1", email: "u@example.com" } },
+      error: null,
+    });
   });
 
   it("returns 400 for invalid JSON", async () => {

@@ -82,14 +82,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       {
         name: "viewport",
-        content:
-          "width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1",
+        content: "width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1",
       },
       { title: "EcoBot — Sustainability Coach" },
       {
         name: "description",
-        content:
-          "Track your carbon footprint and chat with EcoBot, your AI sustainability coach.",
+        content: "Track your carbon footprint and chat with EcoBot, your AI sustainability coach.",
       },
       { name: "author", content: "EcoBot" },
       { name: "theme-color", content: "#2f6b3a" },
@@ -103,17 +101,36 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "EcoBot — Sustainability Coach" },
       {
         property: "og:description",
-        content:
-          "Track your carbon footprint and chat with EcoBot, your AI sustainability coach.",
+        content: "Track your carbon footprint and chat with EcoBot, your AI sustainability coach.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:title", content: "EcoBot — Sustainability Coach" },
-      { name: "description", content: "EcoBot Assistant is an AI-powered sustainability coach that answers carbon questions and personalizes eco-friendly advice." },
-      { property: "og:description", content: "EcoBot Assistant is an AI-powered sustainability coach that answers carbon questions and personalizes eco-friendly advice." },
-      { name: "twitter:description", content: "EcoBot Assistant is an AI-powered sustainability coach that answers carbon questions and personalizes eco-friendly advice." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/73e84b6e-e67d-4226-8f2f-3b0254f56350/id-preview-1884961b--fae454d2-81d8-4c79-82b0-cba16959c688.lovable.app-1781002485844.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/73e84b6e-e67d-4226-8f2f-3b0254f56350/id-preview-1884961b--fae454d2-81d8-4c79-82b0-cba16959c688.lovable.app-1781002485844.png" },
+      {
+        name: "description",
+        content:
+          "EcoBot Assistant is an AI-powered sustainability coach that answers carbon questions and personalizes eco-friendly advice.",
+      },
+      {
+        property: "og:description",
+        content:
+          "EcoBot Assistant is an AI-powered sustainability coach that answers carbon questions and personalizes eco-friendly advice.",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "EcoBot Assistant is an AI-powered sustainability coach that answers carbon questions and personalizes eco-friendly advice.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/73e84b6e-e67d-4226-8f2f-3b0254f56350/id-preview-1884961b--fae454d2-81d8-4c79-82b0-cba16959c688.lovable.app-1781002485844.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/73e84b6e-e67d-4226-8f2f-3b0254f56350/id-preview-1884961b--fae454d2-81d8-4c79-82b0-cba16959c688.lovable.app-1781002485844.png",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

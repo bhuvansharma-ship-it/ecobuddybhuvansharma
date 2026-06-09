@@ -6,7 +6,12 @@ import { cn } from "@/lib/utils";
 const tiles = [
   { key: "today", label: "Today", icon: Leaf, accent: "bg-leaf/15 text-leaf" },
   { key: "week", label: "This week", icon: CalendarDays, accent: "bg-sky/20 text-sky-foreground" },
-  { key: "month", label: "This month", icon: CalendarRange, accent: "bg-sun/25 text-sun-foreground" },
+  {
+    key: "month",
+    label: "This month",
+    icon: CalendarRange,
+    accent: "bg-sun/25 text-sun-foreground",
+  },
 ] as const;
 
 export function CarbonSummary() {
@@ -19,10 +24,7 @@ export function CarbonSummary() {
   };
   const fmt = (n: number) => (Number.isInteger(n) ? n.toString() : n.toFixed(1));
   return (
-    <section
-      aria-label="Carbon saved summary"
-      className="glass rounded-3xl p-5 sm:p-6"
-    >
+    <section aria-label="Carbon saved summary" className="glass rounded-3xl p-5 sm:p-6">
       <div className="mb-4 flex items-end justify-between gap-3">
         <div>
           <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
@@ -46,7 +48,12 @@ export function CarbonSummary() {
               <span className="truncate text-[11px] font-medium text-muted-foreground sm:text-sm">
                 {label}
               </span>
-              <span className={cn("flex h-6 w-6 shrink-0 items-center justify-center rounded-full backdrop-blur sm:h-8 sm:w-8", accent)}>
+              <span
+                className={cn(
+                  "flex h-6 w-6 shrink-0 items-center justify-center rounded-full backdrop-blur sm:h-8 sm:w-8",
+                  accent,
+                )}
+              >
                 <Icon className="h-3 w-3 sm:h-4 sm:w-4" />
               </span>
             </div>

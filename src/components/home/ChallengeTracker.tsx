@@ -6,10 +6,7 @@ export function ChallengeTracker() {
   const { todaysChallenge, completedToday, streak, stats, complete, undo } = useChallenges();
 
   return (
-    <section
-      aria-label="Daily challenge tracker"
-      className="glass rounded-3xl p-5 sm:p-6"
-    >
+    <section aria-label="Daily challenge tracker" className="glass rounded-3xl p-5 sm:p-6">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-primary">
           <Sparkles className="h-3.5 w-3.5" />
