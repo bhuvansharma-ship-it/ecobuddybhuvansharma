@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { WelcomeSection } from "@/components/home/WelcomeSection";
 import { CarbonSummary } from "@/components/home/CarbonSummary";
+import { DashboardCharts } from "@/components/home/DashboardCharts";
 import { DailyFyiCard } from "@/components/home/DailyFyiCard";
 import { QuickActions } from "@/components/home/QuickActions";
 import { InsightCard } from "@/components/home/InsightCard";
@@ -68,6 +69,7 @@ function Home() {
       </Link>
 
       <CarbonSummary />
+      <DashboardCharts />
       <DailyFyiCard />
       <ChallengeTracker />
       <QuickActions />
