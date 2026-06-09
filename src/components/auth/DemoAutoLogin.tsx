@@ -1,18 +1,16 @@
 import { useEffect } from "react";
-import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
-import { getDemoSession } from "@/lib/demo-auth.functions";
 
 export function DemoAutoLogin() {
-  const fetchDemoSession = useServerFn(getDemoSession);
-
   useEffect(() => {
     let cancelled = false;
     (async () => {
       try {
         const { data } = await supabase.auth.getSession();
         if (data.session) return;
-        const tokens = await fetchDemoSession({});
+        const res = await fetch("/api/public/demo-session", { method: "POST" });
+        if (!res.ok) return;
+        const tokens = (await res.json()) as { access_token: string; refresh_token: string };
         if (cancelled) return;
         await supabase.auth.setSession({
           access_token: tokens.access_token,
@@ -25,7 +23,7 @@ export function DemoAutoLogin() {
     return () => {
       cancelled = true;
     };
-  }, [fetchDemoSession]);
+  }, []);
 
   return null;
 }
