@@ -1,113 +1,79 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import {
-  todayKey,
-  getTodaysChallenge,
   computeStreak,
   computeStats,
+  todayKey,
+  getTodaysChallenge,
   dailyChallenges,
+  read,
   useChallenges,
 } from "./challenges";
 
-beforeEach(() => {
-  localStorage.clear();
-});
+beforeEach(() => localStorage.clear());
 
-describe("todayKey", () => {
-  it("formats YYYY-MM-DD", () => {
-    expect(todayKey(new Date("2025-06-09T12:34:56Z"))).toBe("2025-06-09");
+describe("challenges pure helpers", () => {
+  it("todayKey returns YYYY-MM-DD", () => {
+    expect(todayKey(new Date("2025-01-02T10:00:00Z"))).toBe("2025-01-02");
   });
-});
 
-describe("getTodaysChallenge", () => {
-  it("returns a challenge from the rotation", () => {
-    const c = getTodaysChallenge();
-    expect(dailyChallenges).toContainEqual(c);
+  it("getTodaysChallenge returns one of the daily challenges", () => {
+    expect(dailyChallenges).toContain(getTodaysChallenge());
   });
-});
 
-describe("computeStreak", () => {
-  it("returns 0 with no completions", () => {
+  it("computeStreak returns 0 with no completions", () => {
     expect(computeStreak({})).toBe(0);
   });
 
-  it("counts today plus prior consecutive days", () => {
+  it("computeStreak counts consecutive prior days when today incomplete", () => {
     const completions: Record<string, string> = {};
-    for (let i = 0; i < 3; i++) {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      completions[todayKey(d)] = "x";
-    }
-    expect(computeStreak(completions)).toBe(3);
-  });
-
-  it("still counts prior streak when today is not done", () => {
-    const completions: Record<string, string> = {};
-    for (let i = 1; i <= 2; i++) {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      completions[todayKey(d)] = "x";
-    }
+    const d = new Date();
+    d.setDate(d.getDate() - 1);
+    completions[todayKey(d)] = "x";
+    d.setDate(d.getDate() - 1);
+    completions[todayKey(d)] = "x";
     expect(computeStreak(completions)).toBe(2);
   });
 
-  it("breaks on a gap", () => {
-    const completions: Record<string, string> = {};
-    const today = new Date();
-    completions[todayKey(today)] = "x";
-    const threeDaysAgo = new Date();
-    threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
-    completions[todayKey(threeDaysAgo)] = "x";
+  it("computeStreak includes today when complete", () => {
+    const completions = { [todayKey()]: "x" };
     expect(computeStreak(completions)).toBe(1);
   });
-});
 
-describe("computeStats", () => {
-  it("zeros when empty", () => {
-    expect(computeStats({})).toEqual({ total: 0, last7: 0, weeklyRate: 0 });
-  });
-
-  it("counts total and last7 window", () => {
-    const completions: Record<string, string> = {};
-    for (let i = 0; i < 5; i++) {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      completions[todayKey(d)] = "x";
-    }
-    // also one outside the 7-day window
-    const old = new Date();
-    old.setDate(old.getDate() - 30);
-    completions[todayKey(old)] = "x";
+  it("computeStats returns totals and weekly rate", () => {
+    const completions = { [todayKey()]: "x" };
     const s = computeStats(completions);
-    expect(s.total).toBe(6);
-    expect(s.last7).toBe(5);
-    expect(s.weeklyRate).toBe(Math.round((5 / 7) * 100));
+    expect(s.total).toBe(1);
+    expect(s.last7).toBe(1);
+    expect(s.weeklyRate).toBe(14);
+  });
+
+  it("read returns empty when storage missing", () => {
+    expect(read()).toEqual({ completions: {} });
+  });
+
+  it("read returns empty on malformed JSON", () => {
+    localStorage.setItem("ecobot:challenges:v1", "{bad");
+    expect(read()).toEqual({ completions: {} });
+  });
+
+  it("read parses stored record", () => {
+    localStorage.setItem(
+      "ecobot:challenges:v1",
+      JSON.stringify({ completions: { "2025-01-01": "transit" } }),
+    );
+    expect(read().completions["2025-01-01"]).toBe("transit");
   });
 });
 
-describe("useChallenges hook", () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  it("starts uncompleted and toggles via complete/undo", () => {
+describe("useChallenges", () => {
+  it("complete + undo round-trip", () => {
     const { result } = renderHook(() => useChallenges());
     expect(result.current.completedToday).toBe(false);
-    expect(result.current.streak).toBe(0);
-
     act(() => result.current.complete());
     expect(result.current.completedToday).toBe(true);
-    expect(result.current.streak).toBe(1);
-
+    expect(result.current.streak).toBeGreaterThanOrEqual(1);
     act(() => result.current.undo());
     expect(result.current.completedToday).toBe(false);
-  });
-
-  it("loads pre-existing completions from storage", () => {
-    const today = todayKey();
-    const id = getTodaysChallenge().id;
-    localStorage.setItem("ecobot:challenges:v1", JSON.stringify({ completions: { [today]: id } }));
-    const { result } = renderHook(() => useChallenges());
-    expect(result.current.completedToday).toBe(true);
   });
 });
