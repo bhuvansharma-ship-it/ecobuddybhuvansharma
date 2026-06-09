@@ -5,7 +5,9 @@ const listeners = new Set<Listener>();
 
 export function subscribeEcoBot(listener: Listener) {
   listeners.add(listener);
-  return () => listeners.delete(listener);
+  return () => {
+    listeners.delete(listener);
+  };
 }
 
 export function openEcoBot() {

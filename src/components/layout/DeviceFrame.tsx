@@ -41,10 +41,22 @@ export function DeviceFrame({ children }: { children: ReactNode }) {
         </div>
 
         {/* Side buttons */}
-        <div aria-hidden className="absolute -left-[3px] top-[14%] h-[4%] w-[4px] rounded-l bg-neutral-700" />
-        <div aria-hidden className="absolute -left-[3px] top-[20%] h-[7%] w-[4px] rounded-l bg-neutral-700" />
-        <div aria-hidden className="absolute -left-[3px] top-[29%] h-[7%] w-[4px] rounded-l bg-neutral-700" />
-        <div aria-hidden className="absolute -right-[3px] top-[21%] h-[12%] w-[4px] rounded-r bg-neutral-700" />
+        <div
+          aria-hidden
+          className="absolute -left-[3px] top-[14%] h-[4%] w-[4px] rounded-l bg-neutral-700"
+        />
+        <div
+          aria-hidden
+          className="absolute -left-[3px] top-[20%] h-[7%] w-[4px] rounded-l bg-neutral-700"
+        />
+        <div
+          aria-hidden
+          className="absolute -left-[3px] top-[29%] h-[7%] w-[4px] rounded-l bg-neutral-700"
+        />
+        <div
+          aria-hidden
+          className="absolute -right-[3px] top-[21%] h-[12%] w-[4px] rounded-r bg-neutral-700"
+        />
       </div>
     </div>
   );

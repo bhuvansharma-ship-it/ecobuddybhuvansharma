@@ -106,10 +106,7 @@ describe("useChallenges hook", () => {
   it("loads pre-existing completions from storage", () => {
     const today = todayKey();
     const id = getTodaysChallenge().id;
-    localStorage.setItem(
-      "ecobot:challenges:v1",
-      JSON.stringify({ completions: { [today]: id } }),
-    );
+    localStorage.setItem("ecobot:challenges:v1", JSON.stringify({ completions: { [today]: id } }));
     const { result } = renderHook(() => useChallenges());
     expect(result.current.completedToday).toBe(true);
   });

@@ -64,7 +64,6 @@ function ProfilePage() {
 
       <div className="mt-6 flex items-center gap-4">
         {avatarUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={avatarUrl}
             alt="Avatar"
@@ -100,8 +99,16 @@ function ProfilePage() {
           />
         </div>
 
-        <Button onClick={save} disabled={saving || loading} className="w-full bg-emerald-700 hover:bg-emerald-800">
-          {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
+        <Button
+          onClick={save}
+          disabled={saving || loading}
+          className="w-full bg-emerald-700 hover:bg-emerald-800"
+        >
+          {saving ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Save className="mr-2 h-4 w-4" />
+          )}
           Save changes
         </Button>
 

@@ -39,17 +39,17 @@ EcoBot is a full-stack web application that helps users understand and reduce th
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology |
-|-------|------------|
+| Layer         | Technology                                        |
+| ------------- | ------------------------------------------------- |
 | **Framework** | TanStack Start v1 (full-stack React with SSR/SSG) |
-| **UI** | React 19, Tailwind CSS v4, shadcn/ui |
-| **Language** | TypeScript 5 (strict mode) |
-| **Routing** | TanStack Router (file-based) |
-| **Data** | TanStack Query v5 |
-| **Auth & DB** | Supabase (PostgreSQL + RLS) |
-| **AI** | AI SDK + Lovable AI Gateway (Google Gemini) |
-| **Build** | Vite 7, Bun |
-| **Testing** | Vitest + React Testing Library |
+| **UI**        | React 19, Tailwind CSS v4, shadcn/ui              |
+| **Language**  | TypeScript 5 (strict mode)                        |
+| **Routing**   | TanStack Router (file-based)                      |
+| **Data**      | TanStack Query v5                                 |
+| **Auth & DB** | Supabase (PostgreSQL + RLS)                       |
+| **AI**        | AI SDK + Lovable AI Gateway (Google Gemini)       |
+| **Build**     | Vite 7, Bun                                       |
+| **Testing**   | Vitest + React Testing Library                    |
 
 ---
 
@@ -120,15 +120,15 @@ bun run dev   # http://localhost:3000
 
 ## 💻 Development
 
-| Command | Description |
-|---------|-------------|
-| `bun run dev` | Dev server with HMR |
-| `bun run build` | Production build |
-| `bun run preview` | Preview production build |
-| `bun run lint` | ESLint |
-| `bun run format` | Prettier |
-| `bun run test` | Run tests |
-| `bun run test:watch` | Watch mode |
+| Command              | Description              |
+| -------------------- | ------------------------ |
+| `bun run dev`        | Dev server with HMR      |
+| `bun run build`      | Production build         |
+| `bun run preview`    | Preview production build |
+| `bun run lint`       | ESLint                   |
+| `bun run format`     | Prettier                 |
+| `bun run test`       | Run tests                |
+| `bun run test:watch` | Watch mode               |
 
 ### Add a Route
 
@@ -157,14 +157,14 @@ Add tests by creating `*.test.ts` or `*.test.tsx` files.
 
 ## 🔒 Security
 
-| Feature | Implementation |
-|---------|----------------|
-| **Auth** | Supabase JWT; Bearer token validation on every AI request |
-| **RLS** | Row Level Security on all user tables |
-| **Input Validation** | Zod on forms; payload bounds (max 50 msgs, 4000 chars) |
-| **Passwords** | HIBP breach checking; min 6 chars |
-| **Demo Isolation** | Server-side block on demo accounts consuming AI credits |
-| **XSS** | No `dangerouslySetInnerHTML` on user input |
+| Feature              | Implementation                                            |
+| -------------------- | --------------------------------------------------------- |
+| **Auth**             | Supabase JWT; Bearer token validation on every AI request |
+| **RLS**              | Row Level Security on all user tables                     |
+| **Input Validation** | Zod on forms; payload bounds (max 50 msgs, 4000 chars)    |
+| **Passwords**        | HIBP breach checking; min 6 chars                         |
+| **Demo Isolation**   | Server-side block on demo accounts consuming AI credits   |
+| **XSS**              | No `dangerouslySetInnerHTML` on user input                |
 
 ---
 

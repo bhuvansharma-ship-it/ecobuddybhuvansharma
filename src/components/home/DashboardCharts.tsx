@@ -1,14 +1,5 @@
 import { useMemo } from "react";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Pie,
-  PieChart,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, XAxis, YAxis } from "recharts";
 import { BarChart3, PieChart as PieIcon } from "lucide-react";
 import {
   ChartContainer,
@@ -78,7 +69,7 @@ export function DashboardCharts() {
     userContext.topCategories.map((c, i) => [
       c.name,
       { label: c.name, color: CATEGORY_COLORS[i % CATEGORY_COLORS.length] },
-    ])
+    ]),
   ) satisfies ChartConfig;
 
   return (
@@ -154,16 +145,16 @@ export function DashboardCharts() {
                 return (
                   <div key={c.name} className="space-y-1">
                     <div className="flex items-center justify-between text-sm">
-                    <span className="flex items-center gap-2.5">
-                      <span
-                        className="h-2.5 w-2.5 rounded-full ring-[2px] ring-offset-1"
-                        style={{
-                          backgroundColor: c.fill,
-                          boxShadow: `0 0 0 2px ${c.fill}, 0 0 0 3px hsl(var(--card))`,
-                        }}
-                      />
-                      <span className="font-medium text-foreground">{c.name}</span>
-                    </span>
+                      <span className="flex items-center gap-2.5">
+                        <span
+                          className="h-2.5 w-2.5 rounded-full ring-[2px] ring-offset-1"
+                          style={{
+                            backgroundColor: c.fill,
+                            boxShadow: `0 0 0 2px ${c.fill}, 0 0 0 3px hsl(var(--card))`,
+                          }}
+                        />
+                        <span className="font-medium text-foreground">{c.name}</span>
+                      </span>
                       <span className="tabular-nums text-muted-foreground">
                         {c.value} kg · {pct}%
                       </span>

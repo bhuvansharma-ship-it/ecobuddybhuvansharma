@@ -42,6 +42,7 @@ The app is built with modern web technologies, emphasizing performance, accessib
 ## ✨ Features
 
 ### 🏠 Dashboard
+
 - **Carbon Summary** — At-a-glance view of your sustainability score and monthly progress
 - **Interactive Charts** — Visualize emission trends and category breakdowns
 - **Daily FYI Cards** — Bite-sized sustainability facts and tips
@@ -50,6 +51,7 @@ The app is built with modern web technologies, emphasizing performance, accessib
 - **Insight Cards** — Personalized recommendations based on your data
 
 ### 🤖 AI Chat (EcoBot)
+
 - **Streaming Responses** — Real-time AI replies with typing indicators
 - **Context-Aware** — EcoBot knows your footprint, goals, and recent actions
 - **Suggested Prompts** — One-tap starters like "How can I reduce my footprint today?"
@@ -57,12 +59,14 @@ The app is built with modern web technologies, emphasizing performance, accessib
 - **Clear Conversation** — Reset chat anytime
 
 ### 🔐 Authentication
+
 - **Email / Password** — Secure sign-up and sign-in via Supabase Auth
 - **Session Persistence** — Automatic token refresh
 - **Demo Account** — Quick try-before-you-sign-up experience
 - **HIBP Protection** — Have I Been Pwned password breach checking enabled
 
 ### 🎨 Design & UX
+
 - **Mobile-First** — Optimized for phones with safe-area insets and touch targets
 - **Glassmorphism UI** — Frosted glass cards with backdrop blur
 - **Eco Theme** — Emerald/leaf color palette with dark-mode ready tokens
@@ -73,21 +77,21 @@ The app is built with modern web technologies, emphasizing performance, accessib
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| **Framework** | [TanStack Start](https://tanstack.com/start) v1 — Full-stack React with SSR/SSG |
-| **UI Library** | React 19 |
-| **Language** | TypeScript 5 (strict mode) |
-| **Styling** | Tailwind CSS v4 + `tw-animate-css` |
-| **Components** | [shadcn/ui](https://ui.shadcn.com) (Radix UI primitives) |
-| **Routing** | TanStack Router (file-based) |
-| **State / Data** | TanStack Query v5 |
-| **Auth & DB** | Supabase (PostgreSQL + Row Level Security) |
-| **AI** | [AI SDK](https://sdk.vercel.ai) + Lovable AI Gateway (Google Gemini) |
-| **Build Tool** | Vite 7 |
-| **Package Manager** | Bun |
-| **Testing** | Vitest + React Testing Library + jsdom |
-| **Linting** | ESLint 9 + Prettier |
+| Layer               | Technology                                                                      |
+| ------------------- | ------------------------------------------------------------------------------- |
+| **Framework**       | [TanStack Start](https://tanstack.com/start) v1 — Full-stack React with SSR/SSG |
+| **UI Library**      | React 19                                                                        |
+| **Language**        | TypeScript 5 (strict mode)                                                      |
+| **Styling**         | Tailwind CSS v4 + `tw-animate-css`                                              |
+| **Components**      | [shadcn/ui](https://ui.shadcn.com) (Radix UI primitives)                        |
+| **Routing**         | TanStack Router (file-based)                                                    |
+| **State / Data**    | TanStack Query v5                                                               |
+| **Auth & DB**       | Supabase (PostgreSQL + Row Level Security)                                      |
+| **AI**              | [AI SDK](https://sdk.vercel.ai) + Lovable AI Gateway (Google Gemini)            |
+| **Build Tool**      | Vite 7                                                                          |
+| **Package Manager** | Bun                                                                             |
+| **Testing**         | Vitest + React Testing Library + jsdom                                          |
+| **Linting**         | ESLint 9 + Prettier                                                             |
 
 ---
 
@@ -187,16 +191,16 @@ DEMO_EMAIL=demo@example.com
 
 ### Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `bun run dev` | Start the Vite development server with HMR |
-| `bun run build` | Production build (SSR + static assets) |
-| `bun run build:dev` | Development build |
-| `bun run preview` | Preview the production build locally |
-| `bun run lint` | Run ESLint across the codebase |
-| `bun run format` | Auto-format with Prettier |
-| `bun run test` | Run all Vitest tests once |
-| `bun run test:watch` | Run Vitest in watch mode |
+| Command              | Description                                |
+| -------------------- | ------------------------------------------ |
+| `bun run dev`        | Start the Vite development server with HMR |
+| `bun run build`      | Production build (SSR + static assets)     |
+| `bun run build:dev`  | Development build                          |
+| `bun run preview`    | Preview the production build locally       |
+| `bun run lint`       | Run ESLint across the codebase             |
+| `bun run format`     | Auto-format with Prettier                  |
+| `bun run test`       | Run all Vitest tests once                  |
+| `bun run test:watch` | Run Vitest in watch mode                   |
 
 ### Adding a New Route
 
@@ -243,6 +247,7 @@ bun run test:watch
 ```
 
 Current test coverage includes:
+
 - **API Auth Gate** — Verifies `/api/chat` rejects unauthorized and malformed requests with 401.
 
 To add new tests, create `*.test.ts` or `*.test.tsx` files alongside the code they test.
@@ -272,15 +277,15 @@ Or deploy via your preferred platform that supports Vite + Edge runtimes (e.g., 
 
 ## 🔒 Security
 
-| Feature | Implementation |
-|---------|----------------|
-| **Auth** | Supabase JWT with Bearer token validation on every AI chat request |
-| **RLS** | Row Level Security enabled on all user-facing tables |
-| **Input Validation** | Zod schemas on auth forms; payload bounds on chat API (max 50 messages, 4000 chars each) |
-| **Password Security** | HIBP breach checking enabled; minimum 6 characters |
-| **Demo Isolation** | Demo accounts are blocked from consuming AI credits server-side |
-| **XSS Prevention** | No `dangerouslySetInnerHTML` on user input; sanitized markdown rendering |
-| **CSRF** | Same-origin policy on server functions; no CORS needed for internal RPC |
+| Feature               | Implementation                                                                           |
+| --------------------- | ---------------------------------------------------------------------------------------- |
+| **Auth**              | Supabase JWT with Bearer token validation on every AI chat request                       |
+| **RLS**               | Row Level Security enabled on all user-facing tables                                     |
+| **Input Validation**  | Zod schemas on auth forms; payload bounds on chat API (max 50 messages, 4000 chars each) |
+| **Password Security** | HIBP breach checking enabled; minimum 6 characters                                       |
+| **Demo Isolation**    | Demo accounts are blocked from consuming AI credits server-side                          |
+| **XSS Prevention**    | No `dangerouslySetInnerHTML` on user input; sanitized markdown rendering                 |
+| **CSRF**              | Same-origin policy on server functions; no CORS needed for internal RPC                  |
 
 ---
 

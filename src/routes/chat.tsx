@@ -1,9 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useChat } from "@ai-sdk/react";
-import { type UIMessage } from "ai";
-import { createAuthedChatTransport } from "@/lib/chat-transport";
-import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
+import { useEffect, useRef } from "react";
 import { ArrowLeft, Sparkles, Leaf, Trash2 } from "lucide-react";
 
 import ecobotAvatar from "@/assets/ecobot-avatar.png";
@@ -18,26 +14,7 @@ import {
 } from "@/components/ai-elements/prompt-input";
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { suggestedPrompts } from "@/lib/ecobot-prompts";
-
-const STORAGE_KEY = "ecobot:messages:v1";
-
-function loadMessages(): UIMessage[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? (parsed as UIMessage[]) : [];
-  } catch {
-    return [];
-  }
-}
-
-function renderMessageText(message: UIMessage): string {
-  return message.parts
-    .map((p) => (p.type === "text" ? p.text : ""))
-    .join("");
-}
+import { useEcoBotChat, renderMessageText } from "@/hooks/useEcoBotChat";
 
 export const Route = createFileRoute("/chat")({
   head: () => ({
@@ -50,30 +27,8 @@ export const Route = createFileRoute("/chat")({
 });
 
 function ChatPage() {
-  const [initialMessages] = useState<UIMessage[]>(() => loadMessages());
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
-  const { messages, sendMessage, status, setMessages, error } = useChat({
-    id: "ecobot-main",
-    messages: initialMessages,
-    transport: createAuthedChatTransport("/api/chat"),
-    onError: (err) => {
-      const msg = err instanceof Error ? err.message : String(err);
-      if (msg.includes("429")) toast.error("EcoBot is busy — try again in a moment.");
-      else if (msg.includes("402")) toast.error("AI credits exhausted.");
-      else toast.error("EcoBot hit a snag. Please try again.");
-    },
-  });
-
-  // Persist messages
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
-    } catch {
-      /* ignore */
-    }
-  }, [messages]);
+  const { messages, status, error, isLoading, send, clear } = useEcoBotChat();
 
   // Focus textarea on mount
   useEffect(() => {
@@ -81,25 +36,12 @@ function ChatPage() {
     return () => clearTimeout(t);
   }, []);
 
-  const isLoading = status === "submitted" || status === "streaming";
-
   const handleSubmit = (message: PromptInputMessage) => {
-    const text = message.text?.trim();
-    if (!text || isLoading) return;
-    void sendMessage({ text });
+    if (message.text) send(message.text);
   };
 
-  const handleQuickPrompt = (prompt: string) => {
-    if (isLoading) return;
-    void sendMessage({ text: prompt });
-  };
-
-  const handleClear = () => {
-    setMessages([]);
-    if (typeof window !== "undefined") {
-      window.localStorage.removeItem(STORAGE_KEY);
-    }
-  };
+  const handleQuickPrompt = (prompt: string) => send(prompt);
+  const handleClear = () => clear();
 
   return (
     <div className="flex h-full flex-col bg-background">
@@ -159,7 +101,8 @@ function ChatPage() {
               <div>
                 <p className="text-lg font-semibold text-foreground">Hey, I'm EcoBot 🌱</p>
                 <p className="mt-1 text-sm text-muted-foreground max-w-[260px]">
-                  Ask me about your footprint, get a daily challenge, or estimate the carbon cost of just about anything.
+                  Ask me about your footprint, get a daily challenge, or estimate the carbon cost of
+                  just about anything.
                 </p>
               </div>
             </div>

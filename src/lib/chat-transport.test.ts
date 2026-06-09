@@ -19,7 +19,8 @@ beforeEach(() => {
 
 async function resolveHeaders(transport: ReturnType<typeof createAuthedChatTransport>) {
   // DefaultChatTransport stores the headers option on the instance.
-  const headers = (transport as unknown as { headers: () => Promise<Record<string, string>> }).headers;
+  const headers = (transport as unknown as { headers: () => Promise<Record<string, string>> })
+    .headers;
   return await headers();
 }
 

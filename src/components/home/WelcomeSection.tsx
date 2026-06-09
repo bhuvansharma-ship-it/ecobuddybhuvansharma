@@ -10,8 +10,7 @@ export function WelcomeSection() {
   const { user } = useAuth();
 
   const hour = getISTHour();
-  const greeting =
-    hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
+  const greeting = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
 
   const today = new Date().toLocaleDateString("en-IN", {
     weekday: "long",
@@ -33,8 +32,8 @@ export function WelcomeSection() {
         {greeting}, <span className="text-primary">{displayName}</span>
       </h1>
       <p className="max-w-xl text-base text-muted-foreground">
-        You're on day {userContext.joinedDays} of your sustainability journey. Small swaps,
-        big impact — let's keep it going.
+        You're on day {userContext.joinedDays} of your sustainability journey. Small swaps, big
+        impact — let's keep it going.
       </p>
     </header>
   );

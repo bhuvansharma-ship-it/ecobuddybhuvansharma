@@ -22,8 +22,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "EcoBot — Your Sustainability Coach" },
       {
         property: "og:description",
-        content:
-          "Track your carbon footprint and chat with EcoBot, your AI sustainability coach.",
+        content: "Track your carbon footprint and chat with EcoBot, your AI sustainability coach.",
       },
     ],
   }),
@@ -46,9 +45,15 @@ function Home() {
         to="/chat"
         className="glass-tinted-leaf group relative flex items-center gap-4 overflow-hidden rounded-3xl p-5 transition hover:brightness-105 active:scale-[0.98]"
       >
-        <div className="absolute -right-12 -bottom-16 h-48 w-48 rounded-full bg-leaf/30 blur-3xl" aria-hidden />
+        <div
+          className="absolute -right-12 -bottom-16 h-48 w-48 rounded-full bg-leaf/30 blur-3xl"
+          aria-hidden
+        />
         <div className="relative shrink-0">
-          <span className="absolute inset-0 rounded-full bg-leaf/20 blur-md transition group-hover:bg-leaf/30" aria-hidden />
+          <span
+            className="absolute inset-0 rounded-full bg-leaf/20 blur-md transition group-hover:bg-leaf/30"
+            aria-hidden
+          />
           <img
             src={ecobotAvatar}
             alt="EcoBot"

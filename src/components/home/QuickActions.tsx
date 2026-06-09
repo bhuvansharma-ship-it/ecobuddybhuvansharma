@@ -84,7 +84,12 @@ function TripDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: b
     if (!d || d <= 0) return toast.error("Enter a valid distance");
     const factors: Record<string, number> = { car: 0.21, bus: 0.1, train: 0.04, bike: 0, walk: 0 };
     const kg = (d * (factors[mode] ?? 0.2)).toFixed(2);
-    addItem({ kind: "trip", title: `${d} km by ${mode}`, detail: `${kg} kg CO₂e`, kg: parseFloat(kg) });
+    addItem({
+      kind: "trip",
+      title: `${d} km by ${mode}`,
+      detail: `${kg} kg CO₂e`,
+      kg: parseFloat(kg),
+    });
     toast.success("Trip logged", { description: `${d} km by ${mode} · ${kg} kg CO₂e` });
     setDistance("");
     onOpenChange(false);
@@ -101,7 +106,9 @@ function TripDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: b
           <div className="space-y-1.5">
             <Label>Mode</Label>
             <Select value={mode} onValueChange={setMode}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
                 <SelectItem value="car">Car</SelectItem>
                 <SelectItem value="bus">Bus</SelectItem>
@@ -113,11 +120,20 @@ function TripDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: b
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="distance">Distance (km)</Label>
-            <Input id="distance" type="number" inputMode="decimal" value={distance} onChange={(e) => setDistance(e.target.value)} placeholder="e.g. 12" />
+            <Input
+              id="distance"
+              type="number"
+              inputMode="decimal"
+              value={distance}
+              onChange={(e) => setDistance(e.target.value)}
+              placeholder="e.g. 12"
+            />
           </div>
         </div>
         <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>
+            Cancel
+          </Button>
           <Button onClick={submit}>Save</Button>
         </DialogFooter>
       </DialogContent>
@@ -130,9 +146,20 @@ function MealDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: b
   const [note, setNote] = useState("");
 
   const submit = () => {
-    const factors: Record<string, number> = { "plant-based": 0.5, vegetarian: 1.2, poultry: 2.5, beef: 6.5, seafood: 1.8 };
+    const factors: Record<string, number> = {
+      "plant-based": 0.5,
+      vegetarian: 1.2,
+      poultry: 2.5,
+      beef: 6.5,
+      seafood: 1.8,
+    };
     const kg = (factors[type] ?? 1).toFixed(2);
-    addItem({ kind: "meal", title: `${type} meal${note ? ` – ${note}` : ""}`, detail: `${kg} kg CO₂e`, kg: parseFloat(kg) });
+    addItem({
+      kind: "meal",
+      title: `${type} meal${note ? ` – ${note}` : ""}`,
+      detail: `${kg} kg CO₂e`,
+      kg: parseFloat(kg),
+    });
     toast.success("Meal logged", { description: `${type} · ${kg} kg CO₂e` });
     setNote("");
     onOpenChange(false);
@@ -149,7 +176,9 @@ function MealDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: b
           <div className="space-y-1.5">
             <Label>Type</Label>
             <Select value={type} onValueChange={setType}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
                 <SelectItem value="plant-based">Plant-based</SelectItem>
                 <SelectItem value="vegetarian">Vegetarian</SelectItem>
@@ -161,11 +190,18 @@ function MealDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: b
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="note">Note (optional)</Label>
-            <Input id="note" value={note} onChange={(e) => setNote(e.target.value)} placeholder="e.g. lunch salad" />
+            <Input
+              id="note"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              placeholder="e.g. lunch salad"
+            />
           </div>
         </div>
         <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>
+            Cancel
+          </Button>
           <Button onClick={submit}>Save</Button>
         </DialogFooter>
       </DialogContent>
@@ -191,10 +227,17 @@ function GoalDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: b
         </DialogHeader>
         <div className="space-y-1.5">
           <Label htmlFor="goal">Goal</Label>
-          <Input id="goal" value={text} onChange={(e) => setText(e.target.value)} placeholder="e.g. Bike 3 days this week" />
+          <Input
+            id="goal"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="e.g. Bike 3 days this week"
+          />
         </div>
         <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>
+            Cancel
+          </Button>
           <Button onClick={submit}>Save</Button>
         </DialogFooter>
       </DialogContent>
@@ -202,7 +245,13 @@ function GoalDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: b
   );
 }
 
-function HistoryDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
+function HistoryDialog({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+}) {
   const [items, setItems] = useState<HistoryItem[]>([]);
   useEffect(() => {
     if (!open) return;
@@ -239,14 +288,22 @@ function HistoryDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v
           <ScrollArea className="max-h-[50vh] pr-3">
             <ul className="space-y-2">
               {grouped.map((i) => (
-                <li key={i.id} className="flex items-center justify-between rounded-xl border border-border/50 bg-card/50 p-3">
+                <li
+                  key={i.id}
+                  className="flex items-center justify-between rounded-xl border border-border/50 bg-card/50 p-3"
+                >
                   <div className="min-w-0">
                     <p className="truncate text-sm font-medium capitalize">{i.title}</p>
                     <p className="text-xs text-muted-foreground">
                       {i.detail} · {new Date(i.at).toLocaleString()}
                     </p>
                   </div>
-                  <Button size="icon" variant="ghost" onClick={() => remove(i.id)} aria-label="Delete">
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    onClick={() => remove(i.id)}
+                    aria-label="Delete"
+                  >
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </li>
@@ -256,7 +313,9 @@ function HistoryDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v
         )}
         <DialogFooter>
           {grouped.length > 0 && (
-            <Button variant="ghost" onClick={clear}>Clear all</Button>
+            <Button variant="ghost" onClick={clear}>
+              Clear all
+            </Button>
           )}
           <Button onClick={() => onOpenChange(false)}>Close</Button>
         </DialogFooter>
