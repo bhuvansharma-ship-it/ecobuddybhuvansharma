@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { EcoBotWidget } from "@/components/ecobot/EcoBotWidget";
 import { DeviceFrame } from "@/components/layout/DeviceFrame";
+import { DemoAutoLogin } from "@/components/auth/DemoAutoLogin";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -152,6 +153,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <DemoAutoLogin />
       <DeviceFrame>
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
