@@ -5,6 +5,7 @@ import { DailyFyiCard } from "@/components/home/DailyFyiCard";
 import { EcoBotInlineCard } from "@/components/ecobot/EcoBotInlineCard";
 import { QuickActions } from "@/components/home/QuickActions";
 import { InsightCard } from "@/components/home/InsightCard";
+import { ChallengeTracker } from "@/components/home/ChallengeTracker";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -33,6 +34,7 @@ function Home() {
       <CarbonSummary />
       <DailyFyiCard />
       <EcoBotInlineCard />
+      <ChallengeTracker />
       <QuickActions />
       <InsightCard />
     </main>
