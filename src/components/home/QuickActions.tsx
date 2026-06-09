@@ -132,7 +132,7 @@ function MealDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: b
   const submit = () => {
     const factors: Record<string, number> = { "plant-based": 0.5, vegetarian: 1.2, poultry: 2.5, beef: 6.5, seafood: 1.8 };
     const kg = (factors[type] ?? 1).toFixed(2);
-    addItem({ kind: "meal", title: `${type} meal${note ? ` – ${note}` : ""}`, detail: `${kg} kg CO₂e` });
+    addItem({ kind: "meal", title: `${type} meal${note ? ` – ${note}` : ""}`, detail: `${kg} kg CO₂e`, kg: parseFloat(kg) });
     toast.success("Meal logged", { description: `${type} · ${kg} kg CO₂e` });
     setNote("");
     onOpenChange(false);
