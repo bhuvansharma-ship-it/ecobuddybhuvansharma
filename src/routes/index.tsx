@@ -6,6 +6,7 @@ import { EcoBotInlineCard } from "@/components/ecobot/EcoBotInlineCard";
 import { QuickActions } from "@/components/home/QuickActions";
 import { InsightCard } from "@/components/home/InsightCard";
 import { ChallengeTracker } from "@/components/home/ChallengeTracker";
+import { UserMenu } from "@/components/auth/UserMenu";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -33,6 +34,9 @@ function Home() {
       className="mx-auto w-full max-w-md space-y-4 px-4 pb-32 pt-[max(env(safe-area-inset-top),1rem)] sm:max-w-3xl sm:space-y-6 sm:px-6 sm:pt-12"
       style={{ paddingBottom: "max(env(safe-area-inset-bottom), 8rem)" }}
     >
+      <div className="flex items-center justify-end">
+        <UserMenu />
+      </div>
       <WelcomeSection />
       <CarbonSummary />
       <DailyFyiCard />
