@@ -38,4 +38,3 @@ describe("CarbonSummary", () => {
     expect(screen.queryByText(/logged/)).not.toBeInTheDocument();
   });
 });
-

@@ -46,7 +46,7 @@ describe("loadActivity", () => {
   it("returns [] when window is undefined (SSR)", () => {
     const originalWindow = globalThis.window;
     try {
-      // @ts-expect-error
+      // @ts-expect-error -- intentionally invalid for test
       globalThis.window = undefined;
       expect(loadActivity()).toEqual([]);
     } finally {
@@ -94,10 +94,7 @@ describe("useActivityTotals", () => {
   it("ignores items outside the time windows", () => {
     const now = Date.now();
     const old = now - 40 * 24 * 60 * 60 * 1000; // 40 days ago
-    const items: LoggedItem[] = [
-      make({ kg: 5, at: old }),
-      make({ kg: 1, at: now }),
-    ];
+    const items: LoggedItem[] = [make({ kg: 5, at: old }), make({ kg: 1, at: now })];
     saveActivity(items);
     const { result } = renderHook(() => useActivityTotals());
     expect(result.current.today).toBe(1);

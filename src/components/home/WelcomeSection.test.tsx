@@ -77,4 +77,3 @@ describe("WelcomeSection", () => {
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(userContext.name);
   });
 });
-

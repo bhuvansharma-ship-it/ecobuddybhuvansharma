@@ -48,7 +48,7 @@ describe("consumeLastCapturedError", () => {
   it("does not attach listeners when addEventListener is missing", async () => {
     const originalAddEventListener = globalThis.addEventListener;
     try {
-      // @ts-expect-error
+      // @ts-expect-error -- intentionally invalid for test
       globalThis.addEventListener = undefined;
       // Re-importing with no addEventListener should not throw
       const { consumeLastCapturedError } = await import("./error-capture");

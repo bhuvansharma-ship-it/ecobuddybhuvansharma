@@ -13,11 +13,12 @@ export const Route = createFileRoute("/api/chat")({
       POST: async ({ request }) => {
         // Require authenticated Supabase user
         const authHeader = request.headers.get("authorization") ?? "";
-        if (!authHeader.startsWith("Bearer ")) {
+        const token = authHeader.startsWith("Bearer ")
+          ? authHeader.slice("Bearer ".length).trim()
+          : "";
+        if (!token) {
           return new Response("Unauthorized", { status: 401 });
         }
-        const token = authHeader.slice("Bearer ".length).trim();
-        if (!token) return new Response("Unauthorized", { status: 401 });
 
         const SUPABASE_URL = process.env.SUPABASE_URL;
         const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY;
@@ -63,8 +64,9 @@ export const Route = createFileRoute("/api/chat")({
           const parts = Array.isArray(msg?.parts) ? msg.parts : [];
           let textLen = 0;
           for (const p of parts) {
-            if (p && (p as { type?: string }).type === "text") {
-              textLen += String((p as { text?: string }).text ?? "").length;
+            const part = p as { type?: string; text?: string };
+            if (part.type === "text" && typeof part.text === "string") {
+              textLen += part.text.length;
             }
           }
           if (textLen > MAX_MSG_CHARS) {

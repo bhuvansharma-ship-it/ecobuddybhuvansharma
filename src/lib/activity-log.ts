@@ -13,9 +13,8 @@ export const ACTIVITY_KEY = "ecobot:quick-actions:v1";
 export const ACTIVITY_EVENT = "ecobot:history-updated";
 
 export function loadActivity(): LoggedItem[] {
-  if (typeof window === "undefined") return [];
   try {
-    const raw = JSON.parse(localStorage.getItem(ACTIVITY_KEY) ?? "[]") as LoggedItem[];
+    const raw = JSON.parse(globalThis.localStorage?.getItem(ACTIVITY_KEY) ?? "[]") as LoggedItem[];
     return raw.map((i) => ({ ...i, kg: i.kg ?? parseKg(i.detail) }));
   } catch {
     return [];
@@ -55,7 +54,7 @@ export function useActivityTotals() {
   const sum = (since: number) =>
     items
       .filter((i) => i.kind !== "goal" && i.at >= since)
-      .reduce((acc, i) => acc + (i.kg ?? 0), 0);
+      .reduce((acc, i) => acc + Number(i.kg), 0);
 
   return {
     items,
