@@ -56,7 +56,7 @@ function ChatPage() {
   const { messages, sendMessage, status, setMessages, error } = useChat({
     id: "ecobot-main",
     messages: initialMessages,
-    transport: new DefaultChatTransport({ api: "/api/chat" }),
+    transport: createAuthedChatTransport("/api/chat"),
     onError: (err) => {
       const msg = err instanceof Error ? err.message : String(err);
       if (msg.includes("429")) toast.error("EcoBot is busy — try again in a moment.");
