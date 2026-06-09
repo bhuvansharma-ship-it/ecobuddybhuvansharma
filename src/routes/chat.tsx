@@ -107,6 +107,7 @@ function ChatPage() {
       <div className="flex items-center gap-3 border-b border-border/40 bg-white/60 px-4 py-3 backdrop-blur">
         <Link
           to="/"
+          aria-label="Back to home"
           className="flex h-8 w-8 items-center justify-center rounded-full bg-muted/60 transition hover:bg-muted"
         >
           <ArrowLeft className="h-4 w-4 text-foreground" />
