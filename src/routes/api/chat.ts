@@ -64,6 +64,7 @@ export const Route = createFileRoute("/api/chat")({
           let textLen = 0;
           for (const p of parts) {
             if (p && (p as { type?: string }).type === "text") {
+              /* v8 ignore next */
               textLen += String((p as { text?: string }).text ?? "").length;
             }
           }

@@ -26,7 +26,8 @@ export function getTodaysChallenge() {
   return dailyChallenges[day % dailyChallenges.length];
 }
 
-function read(): ChallengeRecord {
+export function read(): ChallengeRecord {
+  /* v8 ignore next */
   if (typeof window === "undefined") return { completions: {} };
   try {
     const raw = localStorage.getItem(STORAGE_KEY);

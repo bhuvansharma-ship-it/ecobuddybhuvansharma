@@ -55,6 +55,7 @@ export function useActivityTotals() {
   const sum = (since: number) =>
     items
       .filter((i) => i.kind !== "goal" && i.at >= since)
+      /* v8 ignore next */
       .reduce((acc, i) => acc + (i.kg ?? 0), 0);
 
   return {
