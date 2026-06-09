@@ -26,7 +26,7 @@ export function CarbonSummary() {
       <div className="mb-4 flex items-end justify-between gap-3">
         <div>
           <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-            Carbon Saved
+            Carbon footprint reduced
           </p>
           <h2 className="text-xl font-semibold text-foreground">Your impact so far</h2>
         </div>
