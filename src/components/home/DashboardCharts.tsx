@@ -99,7 +99,7 @@ export function DashboardCharts() {
       </div>
 
       <div className="glass rounded-3xl p-5 sm:p-6">
-        <div className="mb-3 flex items-center justify-between">
+        <div className="mb-4 flex items-center justify-between">
           <div>
             <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               This month
@@ -110,17 +110,18 @@ export function DashboardCharts() {
             <PieIcon className="h-4 w-4" />
           </span>
         </div>
-        <div className="flex flex-col items-center gap-4 sm:flex-row">
-          <ChartContainer config={categoryConfig} className="h-44 w-full sm:w-1/2">
+        <div className="flex flex-col items-center gap-6 sm:flex-row">
+          <ChartContainer config={categoryConfig} className="h-52 w-full sm:w-5/12">
             <PieChart>
               <ChartTooltip content={<ChartTooltipContent hideLabel />} />
               <Pie
                 data={categoryData}
                 dataKey="value"
                 nameKey="name"
-                innerRadius={48}
-                outerRadius={72}
-                strokeWidth={2}
+                innerRadius={56}
+                outerRadius={84}
+                strokeWidth={3}
+                stroke="hsl(var(--card))"
               >
                 {categoryData.map((entry) => (
                   <Cell key={entry.name} fill={entry.fill} />
@@ -128,17 +129,39 @@ export function DashboardCharts() {
               </Pie>
             </PieChart>
           </ChartContainer>
-          <ul className="w-full space-y-1.5 sm:w-1/2">
-            {categoryData.map((c) => (
-              <li key={c.name} className="flex items-center justify-between text-sm">
-                <span className="flex items-center gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: c.fill }} />
-                  <span className="text-foreground">{c.name}</span>
-                </span>
-                <span className="text-muted-foreground">{c.value} kg</span>
-              </li>
-            ))}
-          </ul>
+          <div className="w-full space-y-3 sm:w-7/12">
+            {categoryData
+              .sort((a, b) => b.value - a.value)
+              .map((c) => {
+                const total = categoryData.reduce((sum, x) => sum + x.value, 0);
+                const pct = total > 0 ? Math.round((c.value / total) * 100) : 0;
+                return (
+                  <div key={c.name} className="space-y-1">
+                    <div className="flex items-center justify-between text-sm">
+                    <span className="flex items-center gap-2.5">
+                      <span
+                        className="h-2.5 w-2.5 rounded-full ring-[2px] ring-offset-1"
+                        style={{
+                          backgroundColor: c.fill,
+                          boxShadow: `0 0 0 2px ${c.fill}, 0 0 0 3px hsl(var(--card))`,
+                        }}
+                      />
+                      <span className="font-medium text-foreground">{c.name}</span>
+                    </span>
+                      <span className="tabular-nums text-muted-foreground">
+                        {c.value} kg · {pct}%
+                      </span>
+                    </div>
+                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+                      <div
+                        className="h-full rounded-full transition-all"
+                        style={{ width: `${pct}%`, backgroundColor: c.fill }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
         </div>
       </div>
     </section>
