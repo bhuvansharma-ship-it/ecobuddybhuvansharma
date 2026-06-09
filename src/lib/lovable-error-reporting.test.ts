@@ -31,10 +31,13 @@ describe("reportLovableError", () => {
 
   it("no-ops when window is undefined (SSR)", async () => {
     const originalWindow = globalThis.window;
-    // @ts-expect-error
-    globalThis.window = undefined;
-    const { reportLovableError } = await import("./lovable-error-reporting");
-    expect(() => reportLovableError(new Error("x"))).not.toThrow();
-    globalThis.window = originalWindow;
+    try {
+      // @ts-expect-error
+      globalThis.window = undefined;
+      const { reportLovableError } = await import("./lovable-error-reporting");
+      expect(() => reportLovableError(new Error("x"))).not.toThrow();
+    } finally {
+      globalThis.window = originalWindow;
+    }
   });
 });
