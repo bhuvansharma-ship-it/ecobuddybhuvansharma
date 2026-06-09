@@ -43,8 +43,10 @@ export function UserMenu() {
           {user.email}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem disabled>
-          <UserIcon className="mr-2 h-4 w-4" /> Profile
+        <DropdownMenuItem asChild>
+          <Link to="/profile">
+            <UserIcon className="mr-2 h-4 w-4" /> Profile
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => signOut()} className="text-red-600 focus:text-red-600">
           <LogOut className="mr-2 h-4 w-4" /> Sign out
