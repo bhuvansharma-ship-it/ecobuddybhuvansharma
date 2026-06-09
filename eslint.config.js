@@ -36,5 +36,11 @@ export default tseslint.config(
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
+  {
+    // shadcn-generated primitives intentionally export variants/hooks alongside
+    // components; the fast-refresh rule doesn't apply to library code.
+    files: ["src/components/ui/**/*.{ts,tsx}", "src/components/ai-elements/**/*.{ts,tsx}"],
+    rules: { "react-refresh/only-export-components": "off" },
+  },
   eslintPluginPrettier,
 );
