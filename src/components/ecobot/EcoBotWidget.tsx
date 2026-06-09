@@ -1,5 +1,6 @@
 import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport, type UIMessage } from "ai";
+import { type UIMessage } from "ai";
+import { createAuthedChatTransport } from "@/lib/chat-transport";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { MessageCircle, X, Minimize2, Sparkles, Trash2, Leaf } from "lucide-react";
@@ -47,7 +48,7 @@ export function EcoBotWidget() {
   const { messages, sendMessage, status, setMessages, error } = useChat({
     id: "ecobot-main",
     messages: initialMessages,
-    transport: new DefaultChatTransport({ api: "/api/chat" }),
+    transport: createAuthedChatTransport("/api/chat"),
     onError: (err) => {
       const msg = err instanceof Error ? err.message : String(err);
       if (msg.includes("429")) toast.error("EcoBot is busy — try again in a moment.");

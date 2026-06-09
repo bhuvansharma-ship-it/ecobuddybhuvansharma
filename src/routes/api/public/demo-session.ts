@@ -1,13 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-const DEMO_EMAIL = "bhuvansayna.demo@ecobot.app";
-const DEMO_PASSWORD = "BhuvanDemo!2026#ReadOnly";
-const DEMO_DISPLAY_NAME = "Bhuvan";
-
 export const Route = createFileRoute("/api/public/demo-session")({
   server: {
     handlers: {
       POST: async () => {
+        const DEMO_EMAIL = process.env.DEMO_EMAIL;
+        const DEMO_PASSWORD = process.env.DEMO_PASSWORD;
+        const DEMO_DISPLAY_NAME = process.env.DEMO_DISPLAY_NAME ?? "Bhuvan";
+
+        if (!DEMO_EMAIL || !DEMO_PASSWORD) {
+          return new Response("Demo session not configured", { status: 503 });
+        }
+
         try {
           const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 

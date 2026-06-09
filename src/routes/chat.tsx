@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport, type UIMessage } from "ai";
+import { type UIMessage } from "ai";
+import { createAuthedChatTransport } from "@/lib/chat-transport";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { ArrowLeft, Sparkles, Leaf, Trash2 } from "lucide-react";
@@ -55,7 +56,7 @@ function ChatPage() {
   const { messages, sendMessage, status, setMessages, error } = useChat({
     id: "ecobot-main",
     messages: initialMessages,
-    transport: new DefaultChatTransport({ api: "/api/chat" }),
+    transport: createAuthedChatTransport("/api/chat"),
     onError: (err) => {
       const msg = err instanceof Error ? err.message : String(err);
       if (msg.includes("429")) toast.error("EcoBot is busy — try again in a moment.");
