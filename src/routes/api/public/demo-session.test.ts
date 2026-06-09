@@ -55,11 +55,9 @@ describe("/api/public/demo-session POST", () => {
   });
 
   it("creates the demo user when first sign-in fails, then returns tokens", async () => {
-    signInWithPassword
-      .mockResolvedValueOnce({ data: { session: null } })
-      .mockResolvedValueOnce({
-        data: { session: { access_token: "a2", refresh_token: "r2" } },
-      });
+    signInWithPassword.mockResolvedValueOnce({ data: { session: null } }).mockResolvedValueOnce({
+      data: { session: { access_token: "a2", refresh_token: "r2" } },
+    });
     createUser.mockResolvedValueOnce({});
     const handler = await getHandler();
     const res = await handler();
