@@ -1,5 +1,6 @@
 import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport, type UIMessage } from "ai";
+import { type UIMessage } from "ai";
+import { createAuthedChatTransport } from "@/lib/chat-transport";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { MessageCircle, X, Minimize2, Sparkles, Trash2, Leaf } from "lucide-react";
