@@ -49,9 +49,13 @@ export function CarbonSummary() {
               </span>
             </div>
             <p className="mt-3 text-3xl font-semibold text-foreground">
-              {saved[key]}
+            <p className="mt-3 text-3xl font-semibold text-foreground">
+              {fmt(totals[key])}
               <span className="ml-1 text-base font-normal text-muted-foreground">kg CO₂</span>
             </p>
+            {logged[key] > 0 && (
+              <p className="mt-1 text-xs text-leaf">+{fmt(logged[key])} from your logs</p>
+            )}
           </div>
         ))}
       </div>
