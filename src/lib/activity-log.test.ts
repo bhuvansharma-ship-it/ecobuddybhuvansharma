@@ -45,10 +45,13 @@ describe("loadActivity", () => {
 
   it("returns [] when window is undefined (SSR)", () => {
     const originalWindow = globalThis.window;
-    // @ts-expect-error
-    globalThis.window = undefined;
-    expect(loadActivity()).toEqual([]);
-    globalThis.window = originalWindow;
+    try {
+      // @ts-expect-error
+      globalThis.window = undefined;
+      expect(loadActivity()).toEqual([]);
+    } finally {
+      globalThis.window = originalWindow;
+    }
   });
 
   it("returns 0 kg when detail has no kg match", () => {

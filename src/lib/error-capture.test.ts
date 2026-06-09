@@ -40,11 +40,14 @@ describe("consumeLastCapturedError", () => {
 
   it("does not attach listeners when addEventListener is missing", async () => {
     const originalAddEventListener = globalThis.addEventListener;
-    // @ts-expect-error
-    globalThis.addEventListener = undefined;
-    // Re-importing with no addEventListener should not throw
-    const { consumeLastCapturedError } = await import("./error-capture");
-    expect(consumeLastCapturedError()).toBeUndefined();
-    globalThis.addEventListener = originalAddEventListener;
+    try {
+      // @ts-expect-error
+      globalThis.addEventListener = undefined;
+      // Re-importing with no addEventListener should not throw
+      const { consumeLastCapturedError } = await import("./error-capture");
+      expect(consumeLastCapturedError()).toBeUndefined();
+    } finally {
+      globalThis.addEventListener = originalAddEventListener;
+    }
   });
 });
