@@ -1,16 +1,18 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { reportLovableError } from "./lovable-error-reporting";
 
 afterEach(() => {
   delete (window as unknown as { __lovableEvents?: unknown }).__lovableEvents;
+  vi.resetModules();
 });
 
 describe("reportLovableError", () => {
-  it("no-ops when global hook missing", () => {
+  it("no-ops when global hook missing", async () => {
+    const { reportLovableError } = await import("./lovable-error-reporting");
     expect(() => reportLovableError(new Error("x"))).not.toThrow();
   });
 
-  it("forwards error + context with react_error_boundary mechanism", () => {
+  it("forwards error + context with react_error_boundary mechanism", async () => {
+    const { reportLovableError } = await import("./lovable-error-reporting");
     const captureException = vi.fn();
     window.__lovableEvents = { captureException };
     const err = new Error("oops");
@@ -25,5 +27,14 @@ describe("reportLovableError", () => {
       handled: false,
       severity: "error",
     });
+  });
+
+  it("no-ops when window is undefined (SSR)", async () => {
+    const originalWindow = globalThis.window;
+    // @ts-expect-error
+    globalThis.window = undefined;
+    const { reportLovableError } = await import("./lovable-error-reporting");
+    expect(() => reportLovableError(new Error("x"))).not.toThrow();
+    globalThis.window = originalWindow;
   });
 });

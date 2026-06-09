@@ -53,4 +53,15 @@ describe("useAuth", () => {
     unmount();
     expect(unsubscribe).toHaveBeenCalled();
   });
+
+  it("handles null session from getSession", async () => {
+    const { useAuth } = await import("./useAuth");
+    const { result } = renderHook(() => useAuth());
+    await act(async () => {
+      resolveSession({ data: { session: null } });
+      await Promise.resolve();
+    });
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.user).toBeNull();
+  });
 });

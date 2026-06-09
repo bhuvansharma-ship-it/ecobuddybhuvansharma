@@ -42,6 +42,20 @@ describe("loadActivity", () => {
     localStorage.setItem(ACTIVITY_KEY, JSON.stringify([make({ kg: 9 })]));
     expect(loadActivity()[0].kg).toBe(9);
   });
+
+  it("returns [] when window is undefined (SSR)", () => {
+    const originalWindow = globalThis.window;
+    // @ts-expect-error
+    globalThis.window = undefined;
+    expect(loadActivity()).toEqual([]);
+    globalThis.window = originalWindow;
+  });
+
+  it("returns 0 kg when detail has no kg match", () => {
+    const item = { ...make(), detail: "no weight here", kg: undefined } as LoggedItem;
+    localStorage.setItem(ACTIVITY_KEY, JSON.stringify([item]));
+    expect(loadActivity()[0].kg).toBe(0);
+  });
 });
 
 describe("saveActivity", () => {
@@ -51,6 +65,14 @@ describe("saveActivity", () => {
     saveActivity([make({ kg: 1 })]);
     expect(JSON.parse(localStorage.getItem(ACTIVITY_KEY)!)).toHaveLength(1);
     expect(fired).toBe(true);
+  });
+
+  it("no-ops when window is undefined (SSR)", () => {
+    const originalWindow = globalThis.window;
+    // @ts-expect-error
+    globalThis.window = undefined;
+    expect(() => saveActivity([make({ kg: 1 })])).not.toThrow();
+    globalThis.window = originalWindow;
   });
 });
 

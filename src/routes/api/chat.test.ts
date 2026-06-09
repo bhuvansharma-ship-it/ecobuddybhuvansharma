@@ -154,3 +154,49 @@ describe("api/chat demo account guard", () => {
     expect(res.status).toBe(403);
   });
 });
+
+describe("api/chat env var branches", () => {
+  beforeEach(() => {
+    getClaims.mockResolvedValue({
+      data: { claims: { sub: "user-1", email: "u@example.com" } },
+      error: null,
+    });
+  });
+
+  it("returns 500 when SUPABASE_URL is missing", async () => {
+    delete process.env.SUPABASE_URL;
+    process.env.SUPABASE_PUBLISHABLE_KEY = "anon";
+    const handler = await getHandler();
+    const res = await handler({
+      request: authedReq({
+        messages: [{ id: "1", role: "user", parts: [{ type: "text", text: "hi" }] }],
+      }),
+    });
+    expect(res.status).toBe(500);
+  });
+
+  it("returns 500 when SUPABASE_PUBLISHABLE_KEY is missing", async () => {
+    process.env.SUPABASE_URL = "http://localhost";
+    delete process.env.SUPABASE_PUBLISHABLE_KEY;
+    const handler = await getHandler();
+    const res = await handler({
+      request: authedReq({
+        messages: [{ id: "1", role: "user", parts: [{ type: "text", text: "hi" }] }],
+      }),
+    });
+    expect(res.status).toBe(500);
+  });
+
+  it("returns 500 when LOVABLE_API_KEY is missing", async () => {
+    process.env.SUPABASE_URL = "http://localhost";
+    process.env.SUPABASE_PUBLISHABLE_KEY = "anon";
+    delete process.env.LOVABLE_API_KEY;
+    const handler = await getHandler();
+    const res = await handler({
+      request: authedReq({
+        messages: [{ id: "1", role: "user", parts: [{ type: "text", text: "hi" }] }],
+      }),
+    });
+    expect(res.status).toBe(500);
+  });
+});

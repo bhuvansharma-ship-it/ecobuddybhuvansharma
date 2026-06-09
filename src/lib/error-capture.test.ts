@@ -1,24 +1,27 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { consumeLastCapturedError } from "./error-capture";
 
 afterEach(() => {
   vi.useRealTimers();
-  consumeLastCapturedError();
+  // Reset the module cache so we can re-test module-level branches
+  vi.resetModules();
 });
 
 describe("consumeLastCapturedError", () => {
-  it("returns undefined when nothing captured", () => {
+  it("returns undefined when nothing captured", async () => {
+    const { consumeLastCapturedError } = await import("./error-capture");
     expect(consumeLastCapturedError()).toBeUndefined();
   });
 
-  it("captures window error events and clears after read", () => {
+  it("captures window error events and clears after read", async () => {
+    const { consumeLastCapturedError } = await import("./error-capture");
     const err = new Error("boom");
     window.dispatchEvent(new ErrorEvent("error", { error: err }));
     expect(consumeLastCapturedError()).toBe(err);
     expect(consumeLastCapturedError()).toBeUndefined();
   });
 
-  it("captures unhandledrejection reason", () => {
+  it("captures unhandledrejection reason", async () => {
+    const { consumeLastCapturedError } = await import("./error-capture");
     const reason = new Error("rej");
     const ev = new Event("unhandledrejection") as PromiseRejectionEvent;
     Object.defineProperty(ev, "reason", { value: reason });
@@ -26,11 +29,22 @@ describe("consumeLastCapturedError", () => {
     expect(consumeLastCapturedError()).toBe(reason);
   });
 
-  it("expires after TTL", () => {
+  it("expires after TTL", async () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date(0));
+    const { consumeLastCapturedError } = await import("./error-capture");
     window.dispatchEvent(new ErrorEvent("error", { error: new Error("x") }));
     vi.setSystemTime(new Date(10_000));
     expect(consumeLastCapturedError()).toBeUndefined();
+  });
+
+  it("does not attach listeners when addEventListener is missing", async () => {
+    const originalAddEventListener = globalThis.addEventListener;
+    // @ts-expect-error
+    globalThis.addEventListener = undefined;
+    // Re-importing with no addEventListener should not throw
+    const { consumeLastCapturedError } = await import("./error-capture");
+    expect(consumeLastCapturedError()).toBeUndefined();
+    globalThis.addEventListener = originalAddEventListener;
   });
 });
