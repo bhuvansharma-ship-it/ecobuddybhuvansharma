@@ -18,6 +18,6 @@ describe("createLovableAiGatewayProvider", () => {
         "X-Lovable-AIG-SDK": "vercel-ai-sdk",
       },
     });
-    expect((provider as { marker: string }).marker).toBe("provider");
+    expect((provider as unknown as { marker: string }).marker).toBe("provider");
   });
 });
