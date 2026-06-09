@@ -8,7 +8,7 @@ export function ChallengeTracker() {
   return (
     <section
       aria-label="Daily challenge tracker"
-      className="rounded-3xl border border-border bg-card p-5 shadow-[var(--shadow-soft)] sm:p-6"
+      className="glass rounded-3xl p-5 sm:p-6"
     >
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-primary">
@@ -40,7 +40,7 @@ export function ChallengeTracker() {
             <button
               type="button"
               onClick={undo}
-              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-2 text-xs font-medium text-muted-foreground transition hover:border-primary/40"
+              className="glass-subtle inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-medium text-muted-foreground transition hover:border-primary/40"
             >
               <Undo2 className="h-3.5 w-3.5" />
               Undo
@@ -50,7 +50,7 @@ export function ChallengeTracker() {
           <button
             type="button"
             onClick={complete}
-            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
+            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-lg shadow-leaf/30 transition hover:brightness-110"
           >
             <CheckCircle2 className="h-4 w-4" />
             Mark complete
@@ -61,7 +61,7 @@ export function ChallengeTracker() {
           onClick={() =>
             sendToEcoBot(`Give me tips to complete today's challenge: ${todaysChallenge.title}`)
           }
-          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground transition hover:border-primary/40"
+          className="glass-subtle inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-foreground transition hover:border-primary/40"
         >
           Ask EcoBot for tips
         </button>
@@ -86,7 +86,7 @@ export function ChallengeTracker() {
 
 function Stat({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-border/70 bg-background/60 p-3">
+    <div className="glass-subtle rounded-2xl p-3">
       <div className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
         {icon}
         {label}
