@@ -84,7 +84,7 @@ function TripDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: b
     if (!d || d <= 0) return toast.error("Enter a valid distance");
     const factors: Record<string, number> = { car: 0.21, bus: 0.1, train: 0.04, bike: 0, walk: 0 };
     const kg = (d * (factors[mode] ?? 0.2)).toFixed(2);
-    addItem({ kind: "trip", title: `${d} km by ${mode}`, detail: `${kg} kg CO₂e` });
+    addItem({ kind: "trip", title: `${d} km by ${mode}`, detail: `${kg} kg CO₂e`, kg: parseFloat(kg) });
     toast.success("Trip logged", { description: `${d} km by ${mode} · ${kg} kg CO₂e` });
     setDistance("");
     onOpenChange(false);
