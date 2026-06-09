@@ -77,7 +77,9 @@ describe("api/chat auth gate", () => {
       request: new Request("http://localhost/api/chat", {
         method: "POST",
         headers: { authorization: "Bearer   ", "content-type": "application/json" },
-        body: JSON.stringify({ messages: [{ id: "1", role: "user", parts: [{ type: "text", text: "hi" }] }] }),
+        body: JSON.stringify({
+          messages: [{ id: "1", role: "user", parts: [{ type: "text", text: "hi" }] }],
+        }),
       }),
     });
     expect(res.status).toBe(401);
@@ -143,7 +145,9 @@ describe("api/chat input validation", () => {
     const handler = await getHandler();
     const res = await handler({
       request: authedReq({
-        messages: [{ id: "1", role: "user", parts: [{ type: "step-start" }, { type: "text", text: "hi" }] }],
+        messages: [
+          { id: "1", role: "user", parts: [{ type: "step-start" }, { type: "text", text: "hi" }] },
+        ],
       }),
     });
     expect(res.status).toBe(200);
