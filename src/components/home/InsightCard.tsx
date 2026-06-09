@@ -6,11 +6,11 @@ export function InsightCard() {
   return (
     <section
       aria-label="EcoBot insight"
-      className="relative overflow-hidden rounded-3xl border border-primary/25 bg-gradient-to-br from-primary-soft via-card to-card p-5 shadow-[var(--shadow-soft)] sm:p-6"
+      className="glass-tinted-leaf relative overflow-hidden rounded-3xl p-5 sm:p-6"
     >
-      <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-leaf/20 blur-3xl" aria-hidden />
+      <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-leaf/30 blur-3xl" aria-hidden />
       <div className="relative space-y-4">
-        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-primary">
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-leaf">
           <Sparkles className="h-3.5 w-3.5" />
           EcoBot Insight
         </div>
@@ -26,7 +26,7 @@ export function InsightCard() {
           <button
             type="button"
             onClick={() => sendToEcoBot(`Tell me more about: ${proactiveInsight.title}`)}
-            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
+            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-lg shadow-leaf/30 transition hover:brightness-110"
           >
             <ArrowRight className="h-4 w-4" />
             Start challenge
@@ -34,7 +34,7 @@ export function InsightCard() {
           <button
             type="button"
             onClick={() => sendToEcoBot("Explain this insight in more detail.")}
-            className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground transition hover:border-primary/40"
+            className="glass-subtle inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-foreground transition hover:border-primary/40"
           >
             <BookOpen className="h-4 w-4" />
             Learn more
@@ -42,7 +42,7 @@ export function InsightCard() {
           <button
             type="button"
             onClick={openEcoBot}
-            className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground transition hover:border-primary/40"
+            className="glass-subtle inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-foreground transition hover:border-primary/40"
           >
             <MessageCircle className="h-4 w-4" />
             Ask EcoBot

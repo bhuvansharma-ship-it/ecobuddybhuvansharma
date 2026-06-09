@@ -7,9 +7,9 @@ export function EcoBotInlineCard() {
   return (
     <section
       aria-label="EcoBot assistant"
-      className="relative overflow-hidden rounded-3xl border border-leaf/30 bg-gradient-to-br from-leaf/10 via-card to-primary-soft/60 p-5 shadow-[var(--shadow-soft)] sm:p-6"
+      className="glass-tinted-leaf relative overflow-hidden rounded-3xl p-5 sm:p-6"
     >
-      <div className="absolute -right-12 -bottom-16 h-48 w-48 rounded-full bg-leaf/15 blur-3xl" aria-hidden />
+      <div className="absolute -right-12 -bottom-16 h-48 w-48 rounded-full bg-leaf/30 blur-3xl" aria-hidden />
       <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-6">
         <button
           type="button"
@@ -29,7 +29,7 @@ export function EcoBotInlineCard() {
         </button>
         <div className="flex-1 space-y-3 text-center sm:text-left">
           <div className="space-y-1">
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-card/70 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-primary">
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-leaf backdrop-blur">
               <Sparkles className="h-3 w-3" />
               AI Coach
             </div>
@@ -46,7 +46,7 @@ export function EcoBotInlineCard() {
                 key={p}
                 type="button"
                 onClick={() => sendToEcoBot(p)}
-                className="rounded-full border border-border bg-card/80 px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-primary/40 hover:bg-card"
+                className="glass-subtle rounded-full px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-primary/40"
               >
                 {p}
               </button>
@@ -54,7 +54,7 @@ export function EcoBotInlineCard() {
             <button
               type="button"
               onClick={openEcoBot}
-              className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition hover:bg-primary/90"
+              className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground shadow-lg shadow-leaf/30 transition hover:brightness-110"
             >
               <MessageCircle className="h-3.5 w-3.5" />
               Open chat

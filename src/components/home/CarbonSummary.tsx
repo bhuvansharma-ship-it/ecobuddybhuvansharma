@@ -13,7 +13,7 @@ export function CarbonSummary() {
   return (
     <section
       aria-label="Carbon saved summary"
-      className="rounded-3xl border border-border/60 bg-card p-5 shadow-[var(--shadow-soft)] sm:p-6"
+      className="glass rounded-3xl p-5 sm:p-6"
     >
       <div className="mb-4 flex items-end justify-between gap-3">
         <div>
@@ -22,7 +22,7 @@ export function CarbonSummary() {
           </p>
           <h2 className="text-xl font-semibold text-foreground">Your impact so far</h2>
         </div>
-        <div className="inline-flex items-center gap-1 rounded-full bg-leaf/15 px-3 py-1 text-xs font-semibold text-leaf">
+        <div className="inline-flex items-center gap-1 rounded-full bg-leaf/20 px-3 py-1 text-xs font-semibold text-leaf backdrop-blur">
           <TrendingDown className="h-3.5 w-3.5" />
           {Math.abs(trend.weekVsLastWeek)}% vs last week
         </div>
@@ -32,11 +32,11 @@ export function CarbonSummary() {
         {tiles.map(({ key, label, icon: Icon, accent }) => (
           <div
             key={key}
-            className="rounded-2xl border border-border/50 bg-background/60 p-4 transition hover:border-primary/30"
+            className="glass-subtle rounded-2xl p-4 transition hover:border-primary/40"
           >
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-muted-foreground">{label}</span>
-              <span className={cn("flex h-8 w-8 items-center justify-center rounded-full", accent)}>
+              <span className={cn("flex h-8 w-8 items-center justify-center rounded-full backdrop-blur", accent)}>
                 <Icon className="h-4 w-4" />
               </span>
             </div>

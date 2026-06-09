@@ -18,9 +18,9 @@ export function QuickActions() {
           <button
             key={label}
             type="button"
-            className="group flex flex-col items-start gap-3 rounded-2xl border border-border/60 bg-card p-4 text-left shadow-[var(--shadow-soft)] transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md"
+            className="glass group flex flex-col items-start gap-3 rounded-2xl p-4 text-left transition hover:-translate-y-0.5 hover:border-primary/40"
           >
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary transition group-hover:bg-primary group-hover:text-primary-foreground">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/20 text-primary backdrop-blur transition group-hover:bg-primary group-hover:text-primary-foreground">
               <Icon className="h-5 w-5" />
             </span>
             <span>
