@@ -20,9 +20,12 @@ vi.mock("@supabase/supabase-js", () => ({
   createClient: () => ({ auth: { getClaims } }),
 }));
 
-async function getHandler() {
-  const mod = await import("@/routes/api/chat");
-  return (mod as any).Route.options.server.handlers.POST;
+type PostHandler = (args: { request: Request }) => Promise<Response>;
+async function getHandler(): Promise<PostHandler> {
+  const mod = (await import("@/routes/api/chat")) as unknown as {
+    Route: { options: { server: { handlers: { POST: PostHandler } } } };
+  };
+  return mod.Route.options.server.handlers.POST;
 }
 
 function authedReq(body: unknown) {
