@@ -137,14 +137,14 @@ export function EcoBotWidget() {
           role="dialog"
           aria-label="EcoBot chat"
           className={cn(
-            "ecobot-pop fixed z-50 flex flex-col overflow-hidden border border-border bg-card shadow-[var(--shadow-glow)]",
+            "ecobot-pop glass-strong fixed z-50 flex flex-col overflow-hidden",
             // Mobile: full screen-ish; Desktop: floating panel
             "inset-x-3 bottom-3 top-16 rounded-3xl",
             "sm:inset-auto sm:bottom-6 sm:right-6 sm:top-auto sm:h-[640px] sm:max-h-[85vh] sm:w-[400px]",
           )}
         >
           {/* Header */}
-          <div className="flex items-center gap-3 border-b border-border/70 bg-gradient-to-br from-primary-soft via-card to-card px-4 py-3">
+          <div className="flex items-center gap-3 border-b border-white/15 bg-white/5 px-4 py-3 backdrop-blur">
             <div className="relative">
               <img
                 src={ecobotAvatar}
@@ -191,7 +191,7 @@ export function EcoBotWidget() {
           </div>
 
           {/* Messages */}
-          <Conversation className="flex-1 bg-gradient-to-b from-card to-background">
+          <Conversation className="flex-1">
             <ConversationContent className="space-y-4">
               {messages.length === 0 && (
                 <div className="flex flex-col items-center gap-3 px-6 py-8 text-center">
@@ -244,7 +244,7 @@ export function EcoBotWidget() {
           </Conversation>
 
           {/* Suggested prompts */}
-          <div className="border-t border-border/60 bg-card/80 px-3 pt-3">
+          <div className="border-t border-white/10 bg-white/5 px-3 pt-3 backdrop-blur">
             <div className="mb-2 flex items-center gap-1 px-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
               <Leaf className="h-3 w-3 text-leaf" />
               Try asking
@@ -256,7 +256,7 @@ export function EcoBotWidget() {
                   type="button"
                   disabled={isLoading}
                   onClick={() => handleQuickPrompt(p)}
-                  className="shrink-0 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-primary/40 hover:bg-primary-soft disabled:opacity-50"
+                  className="glass-subtle shrink-0 rounded-full px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-primary/40 disabled:opacity-50"
                 >
                   {p}
                 </button>
@@ -265,7 +265,7 @@ export function EcoBotWidget() {
           </div>
 
           {/* Composer */}
-          <div className="border-t border-border/60 bg-card p-3">
+          <div className="border-t border-white/10 bg-white/5 p-3 backdrop-blur">
             <PromptInput onSubmit={handleSubmit}>
               <PromptInputTextarea
                 ref={textareaRef}
