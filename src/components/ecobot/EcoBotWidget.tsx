@@ -1,8 +1,4 @@
-import { useChat } from "@ai-sdk/react";
-import { type UIMessage } from "ai";
-import { createAuthedChatTransport } from "@/lib/chat-transport";
 import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
 import { MessageCircle, X, Minimize2, Sparkles, Trash2, Leaf } from "lucide-react";
 
 import ecobotAvatar from "@/assets/ecobot-avatar.png";
@@ -18,70 +14,24 @@ import {
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { cn } from "@/lib/utils";
 import { suggestedPrompts } from "@/lib/ecobot-prompts";
+import { useEcoBotChat, renderMessageText } from "@/hooks/useEcoBotChat";
 import { subscribeEcoBot } from "./ecobot-bus";
-
-const STORAGE_KEY = "ecobot:messages:v1";
-
-function loadMessages(): UIMessage[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? (parsed as UIMessage[]) : [];
-  } catch {
-    return [];
-  }
-}
-
-function renderMessageText(message: UIMessage): string {
-  return message.parts
-    .map((p) => (p.type === "text" ? p.text : ""))
-    .join("");
-}
 
 export function EcoBotWidget() {
   const [open, setOpen] = useState(false);
-  const [initialMessages] = useState<UIMessage[]>(() => loadMessages());
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
-  const { messages, sendMessage, status, setMessages, error } = useChat({
-    id: "ecobot-main",
-    messages: initialMessages,
-    transport: createAuthedChatTransport("/api/chat"),
-    onError: (err) => {
-      const msg = err instanceof Error ? err.message : String(err);
-      if (msg.includes("429")) toast.error("EcoBot is busy — try again in a moment.");
-      else if (msg.includes("402")) toast.error("AI credits exhausted. Add credits in Workspace settings.");
-      else toast.error("EcoBot hit a snag. Please try again.");
-    },
-  });
-
-  // Persist messages.
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
-    } catch {
-      /* ignore */
-    }
-  }, [messages]);
+  const { messages, status, error, isLoading, send, clear } = useEcoBotChat();
 
   // External open/sendMessage requests.
   useEffect(() => {
-    const unsub = subscribeEcoBot((prompt) => {
+    return subscribeEcoBot((prompt) => {
       setOpen(true);
       if (prompt && prompt.trim()) {
         // Defer to let the panel mount.
-        setTimeout(() => {
-          void sendMessage({ text: prompt });
-        }, 60);
+        setTimeout(() => send(prompt), 60);
       }
     });
-    return () => {
-      unsub();
-    };
-  }, [sendMessage]);
+  }, [send]);
 
   // Focus textarea when opened.
   useEffect(() => {
@@ -91,25 +41,12 @@ export function EcoBotWidget() {
     }
   }, [open]);
 
-  const isLoading = status === "submitted" || status === "streaming";
-
   const handleSubmit = (message: PromptInputMessage) => {
-    const text = message.text?.trim();
-    if (!text || isLoading) return;
-    void sendMessage({ text });
+    if (message.text) send(message.text);
   };
 
-  const handleQuickPrompt = (prompt: string) => {
-    if (isLoading) return;
-    void sendMessage({ text: prompt });
-  };
-
-  const handleClear = () => {
-    setMessages([]);
-    if (typeof window !== "undefined") {
-      window.localStorage.removeItem(STORAGE_KEY);
-    }
-  };
+  const handleQuickPrompt = (prompt: string) => send(prompt);
+  const handleClear = () => clear();
 
   return (
     <>
