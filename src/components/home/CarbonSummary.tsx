@@ -11,6 +11,13 @@ const tiles = [
 
 export function CarbonSummary() {
   const { saved, trend } = userContext;
+  const logged = useActivityTotals();
+  const totals = {
+    today: saved.today + logged.today,
+    week: saved.week + logged.week,
+    month: saved.month + logged.month,
+  };
+  const fmt = (n: number) => (Number.isInteger(n) ? n.toString() : n.toFixed(1));
   return (
     <section
       aria-label="Carbon saved summary"
