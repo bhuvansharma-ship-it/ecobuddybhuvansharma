@@ -1,9 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useChat } from "@ai-sdk/react";
-import { type UIMessage } from "ai";
-import { createAuthedChatTransport } from "@/lib/chat-transport";
-import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
+import { useEffect, useRef } from "react";
 import { ArrowLeft, Sparkles, Leaf, Trash2 } from "lucide-react";
 
 import ecobotAvatar from "@/assets/ecobot-avatar.png";
@@ -18,26 +14,7 @@ import {
 } from "@/components/ai-elements/prompt-input";
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { suggestedPrompts } from "@/lib/ecobot-prompts";
-
-const STORAGE_KEY = "ecobot:messages:v1";
-
-function loadMessages(): UIMessage[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? (parsed as UIMessage[]) : [];
-  } catch {
-    return [];
-  }
-}
-
-function renderMessageText(message: UIMessage): string {
-  return message.parts
-    .map((p) => (p.type === "text" ? p.text : ""))
-    .join("");
-}
+import { useEcoBotChat, renderMessageText } from "@/hooks/useEcoBotChat";
 
 export const Route = createFileRoute("/chat")({
   head: () => ({
