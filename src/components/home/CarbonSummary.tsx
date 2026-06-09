@@ -1,5 +1,6 @@
 import { TrendingDown, Leaf, CalendarDays, CalendarRange } from "lucide-react";
 import { userContext } from "@/lib/user-data";
+import { useActivityTotals } from "@/lib/activity-log";
 import { cn } from "@/lib/utils";
 
 const tiles = [
