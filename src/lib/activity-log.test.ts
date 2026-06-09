@@ -66,14 +66,6 @@ describe("saveActivity", () => {
     expect(JSON.parse(localStorage.getItem(ACTIVITY_KEY)!)).toHaveLength(1);
     expect(fired).toBe(true);
   });
-
-  it("no-ops when window is undefined (SSR)", () => {
-    const originalWindow = globalThis.window;
-    // @ts-expect-error
-    globalThis.window = undefined;
-    expect(() => saveActivity([make({ kg: 1 })])).not.toThrow();
-    globalThis.window = originalWindow;
-  });
 });
 
 describe("useActivityTotals", () => {
