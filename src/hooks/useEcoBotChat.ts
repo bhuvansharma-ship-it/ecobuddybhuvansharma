@@ -10,10 +10,8 @@ const CHAT_ID = "ecobot-main";
 const API_ENDPOINT = "/api/chat";
 
 function loadStoredMessages(): UIMessage[] {
-  /* v8 ignore next */
-  if (typeof window === "undefined") return [];
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
+    const raw = globalThis.localStorage?.getItem(STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? (parsed as UIMessage[]) : [];
@@ -53,10 +51,8 @@ export function useEcoBotChat() {
   const { messages, sendMessage, status, setMessages } = chat;
 
   useEffect(() => {
-    /* v8 ignore next */
-    if (typeof window === "undefined") return;
     try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+      globalThis.localStorage?.setItem(STORAGE_KEY, JSON.stringify(messages));
     } catch {
       /* ignore quota errors */
     }
