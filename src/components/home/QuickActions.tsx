@@ -20,32 +20,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { ACTIVITY_EVENT, loadActivity, saveActivity, type LoggedItem } from "@/lib/activity-log";
 
 type ActionKey = "trip" | "meal" | "goal" | "history";
+type HistoryItem = LoggedItem;
 
-type HistoryItem = {
-  id: string;
-  kind: "trip" | "meal" | "goal";
-  title: string;
-  detail: string;
-  at: number;
-};
-
-const STORAGE_KEY = "ecobot:quick-actions:v1";
-
-function loadHistory(): HistoryItem[] {
-  if (typeof window === "undefined") return [];
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "[]");
-  } catch {
-    return [];
-  }
-}
-
-function saveHistory(items: HistoryItem[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-  window.dispatchEvent(new Event("ecobot:history-updated"));
-}
+const loadHistory = loadActivity;
+const saveHistory = saveActivity;
 
 const actions: { key: ActionKey; label: string; icon: typeof Car; hint: string }[] = [
   { key: "trip", label: "Log a trip", icon: Car, hint: "Transport" },
