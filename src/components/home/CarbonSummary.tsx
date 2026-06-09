@@ -36,24 +36,29 @@ export function CarbonSummary() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <div className="grid grid-cols-3 gap-2 sm:gap-3">
         {tiles.map(({ key, label, icon: Icon, accent }) => (
           <div
             key={key}
-            className="glass-subtle rounded-2xl p-4 transition hover:border-primary/40"
+            className="glass-subtle rounded-2xl p-3 transition hover:border-primary/40 sm:p-4"
           >
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-muted-foreground">{label}</span>
-              <span className={cn("flex h-8 w-8 items-center justify-center rounded-full backdrop-blur", accent)}>
-                <Icon className="h-4 w-4" />
+            <div className="flex items-center justify-between gap-1">
+              <span className="truncate text-[11px] font-medium text-muted-foreground sm:text-sm">
+                {label}
+              </span>
+              <span className={cn("flex h-6 w-6 shrink-0 items-center justify-center rounded-full backdrop-blur sm:h-8 sm:w-8", accent)}>
+                <Icon className="h-3 w-3 sm:h-4 sm:w-4" />
               </span>
             </div>
-            <p className="mt-3 text-3xl font-semibold text-foreground">
+            <p className="mt-2 text-xl font-semibold leading-tight text-foreground sm:mt-3 sm:text-3xl">
               {fmt(totals[key])}
-              <span className="ml-1 text-base font-normal text-muted-foreground">kg CO₂</span>
+              <span className="ml-0.5 text-[10px] font-normal text-muted-foreground sm:ml-1 sm:text-base">
+                kg
+              </span>
             </p>
+            <p className="text-[10px] text-muted-foreground sm:hidden">CO₂</p>
             {logged[key] > 0 && (
-              <p className="mt-1 text-xs text-leaf">+{fmt(logged[key])} from your logs</p>
+              <p className="mt-1 text-[10px] text-leaf sm:text-xs">+{fmt(logged[key])} logged</p>
             )}
           </div>
         ))}
