@@ -12,23 +12,24 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { cjk } from "@streamdown/cjk";
-import { code } from "@streamdown/code";
-import { math } from "@streamdown/math";
-import { mermaid } from "@streamdown/mermaid";
 import type { UIMessage } from "ai";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import type { ComponentProps, HTMLAttributes, ReactElement } from "react";
 import {
   createContext,
+  lazy,
   memo,
+  Suspense,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useState,
 } from "react";
-import { Streamdown } from "streamdown";
+import { ClientOnly } from "@tanstack/react-router";
+import type StreamdownResponseType from "./StreamdownResponse";
+
+const LazyStreamdownResponse = lazy(() => import("./StreamdownResponse"));
 
 export type MessageProps = HTMLAttributes<HTMLDivElement> & {
   from: UIMessage["role"];
@@ -319,21 +320,34 @@ export const MessageBranchPage = ({
   );
 };
 
-export type MessageResponseProps = ComponentProps<typeof Streamdown>;
-
-const streamdownPlugins = { cjk, code, math, mermaid };
+export type MessageResponseProps = ComponentProps<typeof StreamdownResponseType>;
 
 export const MessageResponse = memo(
-  ({ className, ...props }: MessageResponseProps) => (
-    <Streamdown
-      className={cn(
-        "size-full [&>*:first-child]:mt-0 [&>*:last-child]:mb-0",
-        className
-      )}
-      plugins={streamdownPlugins}
-      {...props}
-    />
-  ),
+  ({ className, ...props }: MessageResponseProps) => {
+    const fallback = (
+      <div
+        className={cn(
+          "size-full whitespace-pre-wrap [&>*:first-child]:mt-0 [&>*:last-child]:mb-0",
+          className,
+        )}
+      >
+        {typeof props.children === "string" ? props.children : null}
+      </div>
+    );
+    return (
+      <ClientOnly fallback={fallback}>
+        <Suspense fallback={fallback}>
+          <LazyStreamdownResponse
+            className={cn(
+              "size-full [&>*:first-child]:mt-0 [&>*:last-child]:mb-0",
+              className,
+            )}
+            {...props}
+          />
+        </Suspense>
+      </ClientOnly>
+    );
+  },
   (prevProps, nextProps) =>
     prevProps.children === nextProps.children &&
     nextProps.isAnimating === prevProps.isAnimating
