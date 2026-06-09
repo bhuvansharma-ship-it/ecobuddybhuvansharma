@@ -20,32 +20,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { ACTIVITY_EVENT, loadActivity, saveActivity, type LoggedItem } from "@/lib/activity-log";
 
 type ActionKey = "trip" | "meal" | "goal" | "history";
+type HistoryItem = LoggedItem;
 
-type HistoryItem = {
-  id: string;
-  kind: "trip" | "meal" | "goal";
-  title: string;
-  detail: string;
-  at: number;
-};
-
-const STORAGE_KEY = "ecobot:quick-actions:v1";
-
-function loadHistory(): HistoryItem[] {
-  if (typeof window === "undefined") return [];
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "[]");
-  } catch {
-    return [];
-  }
-}
-
-function saveHistory(items: HistoryItem[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-  window.dispatchEvent(new Event("ecobot:history-updated"));
-}
+const loadHistory = loadActivity;
+const saveHistory = saveActivity;
 
 const actions: { key: ActionKey; label: string; icon: typeof Car; hint: string }[] = [
   { key: "trip", label: "Log a trip", icon: Car, hint: "Transport" },
@@ -103,7 +84,7 @@ function TripDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: b
     if (!d || d <= 0) return toast.error("Enter a valid distance");
     const factors: Record<string, number> = { car: 0.21, bus: 0.1, train: 0.04, bike: 0, walk: 0 };
     const kg = (d * (factors[mode] ?? 0.2)).toFixed(2);
-    addItem({ kind: "trip", title: `${d} km by ${mode}`, detail: `${kg} kg CO₂e` });
+    addItem({ kind: "trip", title: `${d} km by ${mode}`, detail: `${kg} kg CO₂e`, kg: parseFloat(kg) });
     toast.success("Trip logged", { description: `${d} km by ${mode} · ${kg} kg CO₂e` });
     setDistance("");
     onOpenChange(false);
@@ -151,7 +132,7 @@ function MealDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: b
   const submit = () => {
     const factors: Record<string, number> = { "plant-based": 0.5, vegetarian: 1.2, poultry: 2.5, beef: 6.5, seafood: 1.8 };
     const kg = (factors[type] ?? 1).toFixed(2);
-    addItem({ kind: "meal", title: `${type} meal${note ? ` – ${note}` : ""}`, detail: `${kg} kg CO₂e` });
+    addItem({ kind: "meal", title: `${type} meal${note ? ` – ${note}` : ""}`, detail: `${kg} kg CO₂e`, kg: parseFloat(kg) });
     toast.success("Meal logged", { description: `${type} · ${kg} kg CO₂e` });
     setNote("");
     onOpenChange(false);

@@ -1,5 +1,6 @@
 import { TrendingDown, Leaf, CalendarDays, CalendarRange } from "lucide-react";
 import { userContext } from "@/lib/user-data";
+import { useActivityTotals } from "@/lib/activity-log";
 import { cn } from "@/lib/utils";
 
 const tiles = [
@@ -10,6 +11,13 @@ const tiles = [
 
 export function CarbonSummary() {
   const { saved, trend } = userContext;
+  const logged = useActivityTotals();
+  const totals = {
+    today: saved.today + logged.today,
+    week: saved.week + logged.week,
+    month: saved.month + logged.month,
+  };
+  const fmt = (n: number) => (Number.isInteger(n) ? n.toString() : n.toFixed(1));
   return (
     <section
       aria-label="Carbon saved summary"
@@ -41,9 +49,12 @@ export function CarbonSummary() {
               </span>
             </div>
             <p className="mt-3 text-3xl font-semibold text-foreground">
-              {saved[key]}
+              {fmt(totals[key])}
               <span className="ml-1 text-base font-normal text-muted-foreground">kg CO₂</span>
             </p>
+            {logged[key] > 0 && (
+              <p className="mt-1 text-xs text-leaf">+{fmt(logged[key])} from your logs</p>
+            )}
           </div>
         ))}
       </div>
