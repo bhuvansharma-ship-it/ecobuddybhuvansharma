@@ -102,6 +102,12 @@ describe("useEcoBotChat", () => {
     expect(errorToast).toHaveBeenCalledWith("EcoBot hit a snag. Please try again.");
   });
 
+  it("onError toast handles non-Error values", () => {
+    renderHook(() => useEcoBotChat());
+    capturedOnError?.("plain string error");
+    expect(errorToast).toHaveBeenCalledWith("EcoBot hit a snag. Please try again.");
+  });
+
   it("loadStoredMessages returns [] when localStorage item is null", () => {
     localStorage.removeItem("ecobot:messages:v1");
     const { result } = renderHook(() => useEcoBotChat());
