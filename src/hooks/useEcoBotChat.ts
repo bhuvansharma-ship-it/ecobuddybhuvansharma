@@ -71,10 +71,7 @@ export function useEcoBotChat() {
 
   const clear = useCallback(() => {
     setMessages([]);
-    /* v8 ignore next 3 */
-    if (typeof window !== "undefined") {
-      window.localStorage.removeItem(STORAGE_KEY);
-    }
+    globalThis.localStorage?.removeItem(STORAGE_KEY);
   }, [setMessages]);
 
   return {
