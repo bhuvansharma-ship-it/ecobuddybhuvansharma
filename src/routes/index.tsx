@@ -69,6 +69,7 @@ function Home() {
       </Link>
 
       <CarbonSummary />
+      <DashboardCharts />
       <DailyFyiCard />
       <ChallengeTracker />
       <QuickActions />
