@@ -20,6 +20,13 @@ describe("consumeLastCapturedError", () => {
     expect(consumeLastCapturedError()).toBeUndefined();
   });
 
+  it("captures error event itself when error property is missing", async () => {
+    const { consumeLastCapturedError } = await import("./error-capture");
+    const ev = new ErrorEvent("error", { message: "fallback" });
+    window.dispatchEvent(ev);
+    expect(consumeLastCapturedError()).toBe(ev);
+  });
+
   it("captures unhandledrejection reason", async () => {
     const { consumeLastCapturedError } = await import("./error-capture");
     const reason = new Error("rej");

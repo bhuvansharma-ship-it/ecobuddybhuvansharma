@@ -90,4 +90,18 @@ describe("useActivityTotals", () => {
     });
     expect(result.current.today).toBe(4);
   });
+
+  it("ignores items outside the time windows", () => {
+    const now = Date.now();
+    const old = now - 40 * 24 * 60 * 60 * 1000; // 40 days ago
+    const items: LoggedItem[] = [
+      make({ kg: 5, at: old }),
+      make({ kg: 1, at: now }),
+    ];
+    saveActivity(items);
+    const { result } = renderHook(() => useActivityTotals());
+    expect(result.current.today).toBe(1);
+    expect(result.current.month).toBe(1);
+    expect(result.current.count).toBe(1);
+  });
 });
