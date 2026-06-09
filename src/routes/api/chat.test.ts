@@ -139,6 +139,26 @@ describe("api/chat input validation", () => {
     expect(await res.text()).toMatch(/Message too long/);
   });
 
+  it("allows message with non-text parts", async () => {
+    const handler = await getHandler();
+    const res = await handler({
+      request: authedReq({
+        messages: [{ id: "1", role: "user", parts: [{ type: "step-start" }, { type: "text", text: "hi" }] }],
+      }),
+    });
+    expect(res.status).toBe(200);
+  });
+
+  it("allows message with missing parts array", async () => {
+    const handler = await getHandler();
+    const res = await handler({
+      request: authedReq({
+        messages: [{ id: "1", role: "user" }],
+      }),
+    });
+    expect(res.status).toBe(200);
+  });
+
   it("returns 200 with a valid payload", async () => {
     const handler = await getHandler();
     const res = await handler({
