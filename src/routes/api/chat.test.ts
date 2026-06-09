@@ -153,6 +153,16 @@ describe("api/chat input validation", () => {
     expect(res.status).toBe(200);
   });
 
+  it("ignores text parts missing a text field", async () => {
+    const handler = await getHandler();
+    const res = await handler({
+      request: authedReq({
+        messages: [{ id: "1", role: "user", parts: [{ type: "text" }] }],
+      }),
+    });
+    expect(res.status).toBe(200);
+  });
+
   it("allows message with missing parts array", async () => {
     const handler = await getHandler();
     const res = await handler({
