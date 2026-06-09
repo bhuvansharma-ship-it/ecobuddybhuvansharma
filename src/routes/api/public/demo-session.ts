@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 const DEMO_EMAIL = "bhuvansayna.demo@ecobot.app";
 const DEMO_PASSWORD = "BhuvanDemo!2026#ReadOnly";
-const DEMO_DISPLAY_NAME = "Bhuvan Sayna";
+const DEMO_DISPLAY_NAME = "Bhuvan";
 
 export const Route = createFileRoute("/api/public/demo-session")({
   server: {

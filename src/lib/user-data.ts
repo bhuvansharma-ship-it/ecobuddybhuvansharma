@@ -29,7 +29,7 @@ export type UserContext = {
 };
 
 export const userContext: UserContext = {
-  name: "Alex",
+  name: "Bhuvan",
   joinedDays: 47,
   sustainabilityScore: 72,
   scoreLabel: "On a good streak",
