@@ -29,7 +29,10 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   return (
-    <main className="mx-auto w-full max-w-3xl space-y-6 px-4 pb-32 pt-8 sm:px-6 sm:pt-12">
+    <main
+      className="mx-auto w-full max-w-md space-y-4 px-4 pb-32 pt-[max(env(safe-area-inset-top),1rem)] sm:max-w-3xl sm:space-y-6 sm:px-6 sm:pt-12"
+      style={{ paddingBottom: "max(env(safe-area-inset-bottom), 8rem)" }}
+    >
       <WelcomeSection />
       <CarbonSummary />
       <DailyFyiCard />
