@@ -70,6 +70,18 @@ describe("api/chat auth gate", () => {
     const res = await handler({ request: authedReq({ messages: [] }) });
     expect(res.status).toBe(401);
   });
+
+  it("rejects empty Bearer token", async () => {
+    const handler = await getHandler();
+    const res = await handler({
+      request: new Request("http://localhost/api/chat", {
+        method: "POST",
+        headers: { authorization: "Bearer   ", "content-type": "application/json" },
+        body: JSON.stringify({ messages: [{ id: "1", role: "user", parts: [{ type: "text", text: "hi" }] }] }),
+      }),
+    });
+    expect(res.status).toBe(401);
+  });
 });
 
 describe("api/chat input validation", () => {
@@ -127,6 +139,26 @@ describe("api/chat input validation", () => {
     expect(await res.text()).toMatch(/Message too long/);
   });
 
+  it("allows message with non-text parts", async () => {
+    const handler = await getHandler();
+    const res = await handler({
+      request: authedReq({
+        messages: [{ id: "1", role: "user", parts: [{ type: "step-start" }, { type: "text", text: "hi" }] }],
+      }),
+    });
+    expect(res.status).toBe(200);
+  });
+
+  it("allows message with missing parts array", async () => {
+    const handler = await getHandler();
+    const res = await handler({
+      request: authedReq({
+        messages: [{ id: "1", role: "user" }],
+      }),
+    });
+    expect(res.status).toBe(200);
+  });
+
   it("returns 200 with a valid payload", async () => {
     const handler = await getHandler();
     const res = await handler({
@@ -152,5 +184,51 @@ describe("api/chat demo account guard", () => {
       }),
     });
     expect(res.status).toBe(403);
+  });
+});
+
+describe("api/chat env var branches", () => {
+  beforeEach(() => {
+    getClaims.mockResolvedValue({
+      data: { claims: { sub: "user-1", email: "u@example.com" } },
+      error: null,
+    });
+  });
+
+  it("returns 500 when SUPABASE_URL is missing", async () => {
+    delete process.env.SUPABASE_URL;
+    process.env.SUPABASE_PUBLISHABLE_KEY = "anon";
+    const handler = await getHandler();
+    const res = await handler({
+      request: authedReq({
+        messages: [{ id: "1", role: "user", parts: [{ type: "text", text: "hi" }] }],
+      }),
+    });
+    expect(res.status).toBe(500);
+  });
+
+  it("returns 500 when SUPABASE_PUBLISHABLE_KEY is missing", async () => {
+    process.env.SUPABASE_URL = "http://localhost";
+    delete process.env.SUPABASE_PUBLISHABLE_KEY;
+    const handler = await getHandler();
+    const res = await handler({
+      request: authedReq({
+        messages: [{ id: "1", role: "user", parts: [{ type: "text", text: "hi" }] }],
+      }),
+    });
+    expect(res.status).toBe(500);
+  });
+
+  it("returns 500 when LOVABLE_API_KEY is missing", async () => {
+    process.env.SUPABASE_URL = "http://localhost";
+    process.env.SUPABASE_PUBLISHABLE_KEY = "anon";
+    delete process.env.LOVABLE_API_KEY;
+    const handler = await getHandler();
+    const res = await handler({
+      request: authedReq({
+        messages: [{ id: "1", role: "user", parts: [{ type: "text", text: "hi" }] }],
+      }),
+    });
+    expect(res.status).toBe(500);
   });
 });

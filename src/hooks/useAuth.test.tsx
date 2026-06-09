@@ -3,10 +3,7 @@ import { renderHook, act, waitFor } from "@testing-library/react";
 
 const unsubscribe = vi.fn();
 let authChangeCb: ((event: string, session: unknown) => void) | undefined;
-let resolveSession: (v: { data: { session: unknown } }) => void;
-const sessionPromise = new Promise<{ data: { session: unknown } }>((r) => {
-  resolveSession = r;
-});
+let resolveSession: (v: { data: { session: unknown } }) => void = () => {};
 const signOut = vi.fn().mockResolvedValue({ error: null });
 
 vi.mock("@/integrations/supabase/client", () => ({
@@ -16,7 +13,10 @@ vi.mock("@/integrations/supabase/client", () => ({
         authChangeCb = cb;
         return { data: { subscription: { unsubscribe } } };
       },
-      getSession: () => sessionPromise,
+      getSession: () =>
+        new Promise<{ data: { session: unknown } }>((r) => {
+          resolveSession = r;
+        }),
       signOut,
     },
   },
@@ -52,5 +52,16 @@ describe("useAuth", () => {
 
     unmount();
     expect(unsubscribe).toHaveBeenCalled();
+  });
+
+  it("handles null session from getSession", async () => {
+    const { useAuth } = await import("./useAuth");
+    const { result } = renderHook(() => useAuth());
+    await act(async () => {
+      resolveSession({ data: { session: null } });
+      await Promise.resolve();
+    });
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.user).toBeNull();
   });
 });

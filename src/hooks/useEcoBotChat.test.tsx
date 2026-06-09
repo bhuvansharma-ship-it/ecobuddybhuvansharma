@@ -101,4 +101,28 @@ describe("useEcoBotChat", () => {
     capturedOnError?.(new Error("boom"));
     expect(errorToast).toHaveBeenCalledWith("EcoBot hit a snag. Please try again.");
   });
+
+  it("onError toast handles non-Error values", () => {
+    renderHook(() => useEcoBotChat());
+    capturedOnError?.("plain string error");
+    expect(errorToast).toHaveBeenCalledWith("EcoBot hit a snag. Please try again.");
+  });
+
+  it("loadStoredMessages returns [] when localStorage item is null", () => {
+    localStorage.removeItem("ecobot:messages:v1");
+    const { result } = renderHook(() => useEcoBotChat());
+    expect(result.current.messages).toEqual([]);
+  });
+
+  it("loadStoredMessages returns [] when stored value is not an array", () => {
+    localStorage.setItem("ecobot:messages:v1", JSON.stringify("not-array"));
+    const { result } = renderHook(() => useEcoBotChat());
+    expect(result.current.messages).toEqual([]);
+  });
+
+  it("loadStoredMessages returns [] when localStorage has invalid JSON", () => {
+    localStorage.setItem("ecobot:messages:v1", "{broken");
+    const { result } = renderHook(() => useEcoBotChat());
+    expect(result.current.messages).toEqual([]);
+  });
 });
