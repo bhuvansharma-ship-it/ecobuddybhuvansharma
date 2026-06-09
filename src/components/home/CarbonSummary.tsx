@@ -49,7 +49,6 @@ export function CarbonSummary() {
               </span>
             </div>
             <p className="mt-3 text-3xl font-semibold text-foreground">
-            <p className="mt-3 text-3xl font-semibold text-foreground">
               {fmt(totals[key])}
               <span className="ml-1 text-base font-normal text-muted-foreground">kg CO₂</span>
             </p>
