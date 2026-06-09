@@ -21,15 +21,27 @@ import { userContext } from "@/lib/user-data";
 
 const WEEK_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
+const BAR_COLORS = [
+  "#34d399", // mon - emerald
+  "#22d3ee", // tue - cyan
+  "#60a5fa", // wed - blue
+  "#a78bfa", // thu - violet
+  "#f472b6", // fri - pink
+  "#fb923c", // sat - orange
+  "#fbbf24", // sun - amber
+];
+
 const weekConfig = {
-  saved: { label: "kg CO₂", color: "hsl(var(--primary))" },
+  saved: { label: "kg CO₂", color: "#34d399" },
 } satisfies ChartConfig;
 
 const CATEGORY_COLORS = [
-  "hsl(var(--primary))",
-  "hsl(var(--sky-foreground, var(--primary)))",
-  "hsl(var(--sun-foreground, var(--primary)))",
-  "hsl(var(--muted-foreground))",
+  "#10b981", // emerald
+  "#3b82f6", // blue
+  "#f59e0b", // amber
+  "#ef4444", // red
+  "#8b5cf6", // violet
+  "#ec4899", // pink
 ];
 
 export function DashboardCharts() {
@@ -93,7 +105,11 @@ export function DashboardCharts() {
             <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={6} fontSize={11} />
             <YAxis tickLine={false} axisLine={false} fontSize={11} width={30} />
             <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
-            <Bar dataKey="saved" fill="var(--color-saved)" radius={[8, 8, 0, 0]} />
+            <Bar dataKey="saved" radius={[8, 8, 0, 0]}>
+              {weekData.map((entry, i) => (
+                <Cell key={entry.day} fill={BAR_COLORS[i % BAR_COLORS.length]} />
+              ))}
+            </Bar>
           </BarChart>
         </ChartContainer>
       </div>
